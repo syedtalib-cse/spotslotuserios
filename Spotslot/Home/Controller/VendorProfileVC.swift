@@ -312,7 +312,16 @@ extension VendorProfileVC{
         lblSunday.text = "\(vendorAbout.time_slot?.sun_start_time ?? "") - \(vendorAbout.time_slot?.sun_end_time ?? "") "
         lblSaturday.text = "\(vendorAbout.time_slot?.sat_start_time ?? "") - \(vendorAbout.time_slot?.sat_start_time ?? "") "
         lblMondayToFriday.text = "\(vendorAbout.time_slot?.daily_start_time ?? "") - \(vendorAbout.time_slot?.daily_end_time ?? "") "
+        
+        /*lblMondayToFriday.text = responseData.buisnessHours?.monFri ?? ""
+        lblSaturday.text = responseData.buisnessHours?.sat ?? ""
+        lblSunday.text = responseData.buisnessHours?.sun ?? ""*/
    }
+    
+    private func setLikeDislikePortfoliosWith(status: Bool, cell: PortfolioSliderCollectionViewCell) {
+        guard let indexPath = sliderCollectionView.indexPath(for: cell) else {return}
+        self.webServiceForLikeDislike(updateIndexPath: indexPath)
+    }
 }
 
 
@@ -334,16 +343,20 @@ extension VendorProfileVC: UICollectionViewDelegate, UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.clvportfolio == collectionView{
             let cell = clvportfolio.dequeueReusableCell(withReuseIdentifier: "PortfoliCell", for: indexPath) as! PortfoliCell
+            
             cell.objVendorPortfolio = self.arrOfportfolio[indexPath.row]
             cell.imgPortfolio.clipsToBounds = true
             return cell
         }else if self.sliderCollectionView == collectionView{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-            if let vc = cell.viewWithTag(111) as? UIImageView {
-                let obj = arrOfportfolio[indexPath.row]
-                vc.sd_setImage(with: URL(string: obj.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
-                vc.clipsToBounds = true
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PortfolioSliderCollectionViewCell", for: indexPath) as! PortfolioSliderCollectionViewCell
+            let obj = arrOfportfolio[indexPath.row]
+            cell.objVendorPortfolio = obj
+            //cell.imgPortfolio.sd_setImage(with: URL(string: obj.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
+            cell.imgPortfolio.clipsToBounds = true
+            cell.completionHandler = { [weak self] (status, cell) in
+                self?.setLikeDislikePortfoliosWith(status: status, cell: cell)
             }
+            
             return cell
         }else{
             let cell = clvReview.dequeueReusableCell(withReuseIdentifier: "VendorReviewCell", for: indexPath) as! VendorReviewCell
@@ -395,11 +408,11 @@ extension VendorProfileVC:UITableViewDelegate,UITableViewDataSource{
                 }else{
                     tlvhair.register(UINib(nibName: "ServiceCell", bundle: nil), forCellReuseIdentifier: "ServiceCell")
                 }
-         return self.services[section].service_list!.count
+                return self.services[section].service_list!.count
             }else{
-              return 0
+                return 0
             }
-         
+            
         }else{
             return 0
         }
@@ -504,7 +517,7 @@ extension VendorProfileVC{
             if responseModel != nil{
                 print("repsonse is \(responseModel?.VendorProfile?.about)")
                 self.toSetDataOnProfile(vendorAbout: responseModel?.VendorProfile?.about ?? About())
-                self.services = responseModel?.VendorProfile?.services ?? []
+                self.services = self.filterServices(responseModel?.VendorProfile?.services ?? [])
                 self.arrOfportfolio = responseModel?.VendorProfile?.portfolio ?? []
                 if self.arrOfportfolio.count != 0{
                     self.forSlidePortFolio()
@@ -519,6 +532,27 @@ extension VendorProfileVC{
         var para = [String:Any]()
         para[ParametersKey.vendor_id.rawValue] = self.vendor_id
         return para
+    }
+    
+    private func filterServices(_ services: [Services]) -> [Services] {
+        let finalServices = services.filter { (service) -> Bool in
+            return !(service.service_list?.isEmpty ?? true) ? true : false
+        }
+        return finalServices
+    }
+    
+    func webServiceForLikeDislike(updateIndexPath: IndexPath){
+        let para = ["portfolio_style_id" :arrOfportfolio[updateIndexPath.item].id ?? "", "vendor_id": arrOfportfolio[updateIndexPath.item].vendor_id ?? ""]
+        UserDataModel.webServiceLikeDislikePortfolios(params: para) { [weak self] (response) in
+            if response != nil{
+                guard let self = self/*, response?.data != nil*/ else {return}
+                if let isFavourite = self.arrOfportfolio[updateIndexPath.item].isFavorite {
+                    self.arrOfportfolio[updateIndexPath.item].isFavorite = isFavourite == 0 ? 1 : 0
+                    self.sliderCollectionView.reloadItems(at: [updateIndexPath])
+                }
+               
+            }
+        }
     }
 
 }

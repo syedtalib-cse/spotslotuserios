@@ -486,6 +486,19 @@ struct UserDataModel : Mappable {
         }
     }
     
+    //To Like Dislike Portfolios
+    static func webServiceLikeDislikePortfolios(params:[String:Any],completion:@escaping(ResponseWrapperModel<LikeDislikePortfolioResponse>?) -> Void){
+      //  SVProgressHUD.show()
+        print(params)
+        objWebServiceManager.requestPostWithoutProgress(strURL:favoriteUnfavoriteStyle, params:params, showIndicator: true, success: { (response) in
+            let responseModel = Mapper<ResponseWrapperModel<LikeDislikePortfolioResponse>>().map(JSONString: response)
+            completion(responseModel)
+        }) { (error) in
+            //SVProgressHUD.dismiss()
+            print(error)
+        }
+    }
+    
     
 
     //To get all booked marked list

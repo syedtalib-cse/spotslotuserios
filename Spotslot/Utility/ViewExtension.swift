@@ -71,6 +71,12 @@ extension UIView{
         layer.insertSublayer(gradientLayer, at: 0)
     }
     
+    func setRadiusBorderWithColor(borderWidth : CGFloat,cRadius:CGFloat,Color:UIColor) {
+        layer.borderColor = Color.cgColor
+        layer.borderWidth = borderWidth
+        layer.cornerRadius = cRadius
+    }
+    
 }
 extension UIView {
     @IBInspectable var hazardSourceType: CGFloat {

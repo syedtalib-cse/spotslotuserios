@@ -49,6 +49,7 @@ let cancelRequest = "booking/cancelRequest"//35
 let sendMessage = "sendMessage"//36
 let chatHistory = "chatHistory"//37
 let pay = "pay"//38
+let favoriteUnfavoriteStyle = "favoriteUnfavoriteStyle"
 
 
 

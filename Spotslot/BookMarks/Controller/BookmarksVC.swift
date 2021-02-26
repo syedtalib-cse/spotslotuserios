@@ -153,6 +153,7 @@ extension BookmarksVC:UICollectionViewDelegate,UICollectionViewDataSource{
             self.tlvBookmark.reloadData()
         }
         self.clvTab.reloadData()
+        webServicesCallingToGetAllBookedMarked()
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

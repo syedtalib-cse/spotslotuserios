@@ -31,14 +31,15 @@ class BookingSummaryVC: UIViewController {
     
     var latitude = 0.0
     var longitude = 0.0
+    var address = ""
     
-    var locationManager = CLLocationManager()
+    //var locationManager = CLLocationManager()
     var dataDic = [String:Any]()
   
     override func viewDidLoad() {
         super.viewDidLoad()
         intialConfig()
-        locationConfigure()
+        //locationConfigure()
         setData()
     }
 
@@ -67,13 +68,13 @@ extension BookingSummaryVC{
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func locationConfigure(){
+    /*func locationConfigure(){
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-    }
+    }*/
     
     func intialConfig(){
        DispatchQueue.main.async {
@@ -121,6 +122,7 @@ extension BookingSummaryVC{
         }
         
         lblTravelFee.text = "\(GenralText.currency.rawValue) \(travelFee)"
+        self.lblSpotAddress.text = address
     }
     
     
@@ -199,7 +201,7 @@ extension BookingSummaryVC{
         return para
 }
 }
-
+/*
 //Get device Location
 extension BookingSummaryVC: CLLocationManagerDelegate {
     func locationManager(_ manager:CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -254,7 +256,7 @@ extension BookingSummaryVC: CLLocationManagerDelegate {
         })
     }
 }
-
+*/
 
 //MARK:- Stripe related things
 extension BookingSummaryVC{

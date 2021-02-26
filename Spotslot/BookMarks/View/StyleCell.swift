@@ -24,6 +24,7 @@ class StyleCell: UITableViewCell {
     
     @IBOutlet weak var imgProfilePic: UIImageView!
     @IBOutlet weak var imgStyle: UIImageView!
+    @IBOutlet weak var darkView: UIView!
     @IBOutlet weak var lblstyleName: UILabel!
     @IBOutlet weak var lblUserName: UILabel!
     @IBOutlet weak var lblSpecilazation: UILabel!

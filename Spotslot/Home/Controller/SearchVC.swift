@@ -52,6 +52,12 @@ class SearchVC: UIViewController {
         self.clvTab.reloadData()
     }
     
+    @IBAction func tryDifferentKyewordAction(_ sender: Any) {
+        self.txtfSearch.text = ""
+        self.webServiceToearchWithKeyword()
+        self.txtfSearch.becomeFirstResponder()
+    }
+    
 }
 
 //MARK:- Custom function here

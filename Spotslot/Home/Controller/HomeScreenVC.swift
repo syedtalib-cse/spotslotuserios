@@ -125,44 +125,23 @@ class HomeScreenVC: UIViewController {
     }
     
     @IBAction func btnOpenToGetAddress(_ sender: UIButton) {
-        //        let autocompleteController = GMSAutocompleteViewController()
-        //        autocompleteController.delegate = self
-        /*let autocompleteController = GMSAutocompleteViewController()
-        autocompleteController.delegate = self
         
-        if #available(iOS 13.0, *) {
-            if UIScreen.main.traitCollection.userInterfaceStyle == .dark  {
-                autocompleteController.primaryTextColor = UIColor.white
-                autocompleteController.secondaryTextColor = UIColor.lightGray
-                autocompleteController.tableCellSeparatorColor = UIColor.lightGray
-                autocompleteController.tableCellBackgroundColor = UIColor.darkGray
-            } else {
-                autocompleteController.primaryTextColor = UIColor.black
-                autocompleteController.secondaryTextColor = UIColor.lightGray
-                autocompleteController.tableCellSeparatorColor = UIColor.lightGray
-                autocompleteController.tableCellBackgroundColor = UIColor.white
-            }
+        let vc = UIStoryboard(name: "Address", bundle: nil).instantiateViewController(withIdentifier: "AddressPickerViewController") as! AddressPickerViewController
+        vc.getLocationAndAddressCompletion = { [weak self] (latitude, longitude, address) in
+            guard let self = self else {return}
+            self.navigationController?.popViewController(animated: true)
+            self.latitude = Double(latitude) ?? 0
+            self.longitude = Double(longitude) ?? 0
+            self.address = address
+            self.lblCurrentAddress.text = self.address
+            print("Updatede Lat Long:- \(self.latitude) :: \(self.longitude)")
+            self.updateTimer()
         }
-        present(autocompleteController, animated: true, completion: nil)*/
-        
-        
-        let autocompleteController = GMSAutocompleteViewController()
-        autocompleteController.delegate = self
-        
-        // Specify the place data types to return.
-        /*let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
-                                                    UInt(GMSPlaceField.placeID.rawValue))!
-        autocompleteController.placeFields = fields*/
-        
-        // Specify a filter.
-        let filter = GMSAutocompleteFilter()
-        filter.type = .address
-        autocompleteController.autocompleteFilter = filter
-        
-        // Display the autocomplete view controller.
-        present(autocompleteController, animated: true, completion: nil)
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
         
     }
+
     
 }
 
@@ -187,6 +166,7 @@ extension HomeScreenVC{
     
     
     func intialConfig(){
+        lblCurrentAddress.text = "-"
         DispatchQueue.main.async {
             self.viewBG.roundedTop(width: 20, height: 20)
         }
@@ -341,16 +321,7 @@ extension HomeScreenVC:UICollectionViewDelegate,UICollectionViewDataSource,UICol
         return 0.0
     }
     
-    
-   // func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//        if self.clvCatelog != collectionView{
-//            let cell = clvTab.cellForItem(at: indexPath) as! TabCoolectionCell
-//            if indexPath.row != 0{
 
-//            }
-//        }
-  //  }
-    
 }
 
 //MARK:- TAbleView DataSource and Delegate
@@ -416,13 +387,13 @@ extension HomeScreenVC:UITableViewDataSource,UITableViewDelegate{
         if self.portfolio.count != 0{
             for (index, portfolio) in self.portfolio.enumerated() {
                 if index == 0 {
-                    print(portfolio.image)
+                    //print(portfolio.image)
                     imgPortFolio1.sd_setImage(with: URL(string: portfolio.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
                 }else if index == 1 {
-                    print(portfolio.image)
+                    //print(portfolio.image)
                     imgPortFlio2.sd_setImage(with: URL(string: portfolio.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
                 }else if index == 2 {
-                    print(portfolio.image)
+                    //print(portfolio.image)
                     imgPortFolio3.sd_setImage(with: URL(string: portfolio.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
                 }
             }
@@ -438,100 +409,7 @@ extension HomeScreenVC:UITableViewDataSource,UITableViewDelegate{
     
 }
 
-extension HomeScreenVC: GMSAutocompleteViewControllerDelegate {
 
-  // Handle the user's selection.
-  func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-    print("Place name: \(place.name)")
-    print("Place ID: \(place.placeID)")
-    print("Place attributions: \(place.attributions)")
-    dismiss(animated: true, completion: nil)
-  }
-
-  func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-    // TODO: handle the error.
-    print("Error: ", error.localizedDescription)
-  }
-
-  // User canceled the operation.
-  func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-    dismiss(animated: true, completion: nil)
-  }
-
-  // Turn the network activity indicator on and off again.
-  func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
-    UIApplication.shared.isNetworkActivityIndicatorVisible = true
-  }
-
-  func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
-    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-  }
-
-}
-
-/*extension HomeScreenVC:GMSAutocompleteViewControllerDelegate{
-    //MARK:- GMSAutocompleteViewControllerDelegate
-    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        self.latitude = place.coordinate.latitude
-        self.longitude = place.coordinate.longitude
-        self.reverseGeocodeCoordinate(place.coordinate, success: { (addressModelObj) in
-           // self.tfAddress.text = addressModelObj.address
-           // self.tfCity.text = addressModelObj.city
-            //self.tfState.text = addressModelObj.state
-            //self.tfCountry.text = addressModelObj.country
-           // self.tfPincode.text = addressModelObj.zipCode
-        }) { (error) in
-            print("error occured",error.localizedDescription)
-        }
-       /// self.tfAddress.text = place.name
-     //   let address = place.formattedAddress?.commaSaparatedComponents
-        print("adress is \(address)")
-        self.dismiss(animated: true){
-            
-        }
-    }
-    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        self.showAnnouncement(withMessage: error.localizedDescription)
-        self.dismiss(animated: true, completion: nil)
-        
-    }
-    
-    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D, success: @escaping (AddressModel)->(), failure: @escaping (Error)-> ()){
-          let geocoder = GMSGeocoder()
-          geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
-              if let err =  error {
-                    failure(err)
-                  return
-              }
-              
-              guard let address = response?.firstResult(), let lines = address.lines else {
-                  let errorTemp = NSError(domain:"", code:10, userInfo:nil)
-                  failure(errorTemp)
-                  return
-              }
-              
-              let addrLines = lines.joined(separator: "\n")
-              let currentAddress = AddressModel()
-              currentAddress.address = addrLines
-              currentAddress.city = address.locality ?? ""
-              currentAddress.state = address.administrativeArea ?? ""
-              currentAddress.country = address.country ?? ""
-              currentAddress.zipCode = address.postalCode ?? ""
-              currentAddress.lat = String(address.coordinate.latitude)
-              currentAddress.lng = String(address.coordinate.longitude)
-              success(currentAddress)
-              
-          }
-      }
-    
-    
-    
-    
-}*/
 //MARK:- Delege to get data fromfilter
 extension HomeScreenVC:DataPass{
     func dataPass(arrOfVendorList: [VendorlistModel]) {

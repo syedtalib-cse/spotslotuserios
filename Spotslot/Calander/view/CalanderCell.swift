@@ -24,7 +24,7 @@ class CalanderCell: UICollectionViewCell {
             lblDate.text = objUpcomming?.appointment_date ?? ""
             lblTime.text = objUpcomming?.primary_slot ?? ""
             lblUserName.text = objUpcomming?.username ?? ""
-            lblVendorName.text = objUpcomming?.vendor_name ?? ""
+            lblVendorName.text = "" //objUpcomming?.vendor_name ?? ""
             imgUser.sd_setImage(with: URL(string:objUpcomming?.vendor_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
         }
     }
@@ -32,7 +32,7 @@ class CalanderCell: UICollectionViewCell {
        var objUpcomming2:Upcomming?{
            didSet{
                lblUserName.text = objUpcomming2?.username ?? ""
-               lblVendorName.text = objUpcomming2?.vendor_name ?? ""
+               lblVendorName.text = "" /*objUpcomming2?.vendor_name ?? ""*/
                imgUser.sd_setImage(with: URL(string:objUpcomming2?.vendor_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
            }
        }

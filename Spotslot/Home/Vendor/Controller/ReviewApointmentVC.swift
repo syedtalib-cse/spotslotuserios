@@ -53,6 +53,10 @@ class ReviewApointmentVC: UIViewController {
     var dataDic = [String:Any]()
     var selectedDate: Date?
     var vendorId = ""
+    var latitude:Double = 0.0
+    var longitude:Double = 0.0
+    var address = ""
+    
     private var dates = [Date]()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,14 +115,33 @@ class ReviewApointmentVC: UIViewController {
     }
     
     @IBAction func pushToMap(_ sender: Any) {
-        let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "SetViewController") as! SetViewController
+        /*let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "SetViewController") as! SetViewController
+        self.navigationController?.pushViewController(vc, animated: true)*/
+        
+        let vc = UIStoryboard(name: "Address", bundle: nil).instantiateViewController(withIdentifier: "AddressPickerViewController") as! AddressPickerViewController
+        vc.getLocationAndAddressCompletion = { [weak self] (latitude, longitude, address) in
+            guard let self = self else {return}
+            self.navigationController?.popViewController(animated: true)
+            self.latitude = Double(latitude) ?? 0
+            self.longitude = Double(longitude) ?? 0
+            self.address = address
+            self.lblLocations.text = self.address
+            
+        }
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func btnPushToSumarry(_ sender: Any) {
         let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "BookingSummaryVC") as! BookingSummaryVC
         vc.dataDic = self.dataDic
-        self.navigationController?.pushViewController(vc, animated: true)
+        if latitude != 0 && longitude != 0, let addressText = self.lblLocations.text, !addressText.isEmpty {
+            vc.latitude = latitude
+            vc.longitude = longitude
+            vc.address = addressText
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            self.showAnnouncement(withMessage: "Please Select Location for booking.")
+        }
     }
     
 }
@@ -282,6 +305,8 @@ extension ReviewApointmentVC: CLLocationManagerDelegate {
         print("locations = \(locations)")
         locationManager.stopUpdatingLocation()
         if let cord = locationManager.location?.coordinate {
+            self.latitude = cord.latitude
+            self.longitude = cord.longitude
             getAddressFromCoordinate(cord)
         }
     }

@@ -112,9 +112,9 @@ extension EditProfileVC{
         let camera = Camera(delegate_: self)
          GlobalObj.displayAlertWithHandlerwithSheetStyle(with: "Update your profile/ Cover Picture", message: nil, buttons: ["Camera","Gallery","Cancel"], viewobj: self, buttonStyles: [.default,.default,.cancel], handler: { (selecteutton) in
           if selecteutton == "Camera"{
-               camera.PresentMultyCamera(target: self, canEdit: false)
+               camera.PresentMultyCamera(target: self, canEdit: true)
           }else if selecteutton == "Gallery"{
-            camera.PresentPhotoLibrary(target: self, canEdit: false)
+            camera.PresentPhotoLibrary(target: self, canEdit: true)
           }
       })
       }
@@ -143,7 +143,7 @@ extension EditProfileVC:UIImagePickerControllerDelegate,UINavigationControllerDe
         //MARK: UIImagePickerController delegate
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             // let video = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL
-            let picture = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            let picture = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
             print(picture as Any,"picture")
             self.imgProfile.image = picture
             // let imagedata = picture?.jpegData(compressionQuality: 0.4)
