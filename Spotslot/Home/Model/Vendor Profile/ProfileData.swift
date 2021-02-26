@@ -7,6 +7,9 @@ struct ProfileData : Mappable {
 	var about : About?
 	var services : [Services]?
 	var portfolio : [VendorPortfolio]?
+    var setcoverage: CoverageDetail?
+    var buisness_hours: BuisnessHourDetail?
+    var languages: [LanguageModel]?
 
 	init?(map: Map) {	}
 
@@ -14,7 +17,18 @@ struct ProfileData : Mappable {
      	about <- map["about"]
 		services <- map["services"]
 		portfolio <- map["portfolio"]
+        setcoverage <- map["setcoverage"]
+        buisness_hours <- map["buisness_hours"]
+        languages <- map["language_know"]
 	}
 
     
 }
+
+
+
+
+
+
+
+

@@ -300,7 +300,6 @@ extension VendorProfileVC{
         self.rating_list = vendorAbout.rating_list ?? []
         lblTotalRatedUser.text = "(\(vendorAbout.total_rate_user ?? 0))"
         lblAvrageRating.text = "\(vendorAbout.avag_rating ?? 0)"
-        lblLanguage.text = vendorAbout.languages ?? ""
         lblBio.text = vendorAbout.bio ?? ""
         dataDic["about"] = vendorAbout
         if vendorAbout.isBookmark == 1{
@@ -309,14 +308,27 @@ extension VendorProfileVC{
             imgBookMarked.image = UIImage(named: "bookmark")
         }
         self.clvReview.reloadData()
-        lblSunday.text = "\(vendorAbout.time_slot?.sun_start_time ?? "") - \(vendorAbout.time_slot?.sun_end_time ?? "") "
-        lblSaturday.text = "\(vendorAbout.time_slot?.sat_start_time ?? "") - \(vendorAbout.time_slot?.sat_start_time ?? "") "
-        lblMondayToFriday.text = "\(vendorAbout.time_slot?.daily_start_time ?? "") - \(vendorAbout.time_slot?.daily_end_time ?? "") "
-        
-        /*lblMondayToFriday.text = responseData.buisnessHours?.monFri ?? ""
-        lblSaturday.text = responseData.buisnessHours?.sat ?? ""
-        lblSunday.text = responseData.buisnessHours?.sun ?? ""*/
+      
    }
+    
+    private func setBusinessHoursDetails(_ model: BuisnessHourDetail?) {
+        lblMondayToFriday.text = model?.monFri ?? ""
+        lblSaturday.text = model?.sat ?? ""
+        lblSunday.text = model?.sun ?? ""
+    }
+    
+    private func setLanguages(_ languages: [LanguageModel]? ) {
+        
+        let selectedLanguagesNames = languages?.reduce([String](), { (result, language) -> [String] in
+            var _result = result
+            if language.languageName != nil {
+                _result.append(language.languageName ?? "")
+            }
+            
+            return _result
+        }).joined(separator: ", ")
+        lblLanguage.text = selectedLanguagesNames
+    }
     
     private func setLikeDislikePortfoliosWith(status: Bool, cell: PortfolioSliderCollectionViewCell) {
         guard let indexPath = sliderCollectionView.indexPath(for: cell) else {return}
@@ -517,6 +529,8 @@ extension VendorProfileVC{
             if responseModel != nil{
                 print("repsonse is \(responseModel?.VendorProfile?.about)")
                 self.toSetDataOnProfile(vendorAbout: responseModel?.VendorProfile?.about ?? About())
+                self.setBusinessHoursDetails(responseModel?.VendorProfile?.buisness_hours)
+                self.setLanguages(responseModel?.VendorProfile?.languages)
                 self.services = self.filterServices(responseModel?.VendorProfile?.services ?? [])
                 self.arrOfportfolio = responseModel?.VendorProfile?.portfolio ?? []
                 if self.arrOfportfolio.count != 0{

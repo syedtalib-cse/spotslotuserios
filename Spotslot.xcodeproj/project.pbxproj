@@ -44,6 +44,9 @@
 		041BDFF324F69A4A00A989C8 /* SetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BDFF224F69A4A00A989C8 /* SetViewController.swift */; };
 		042FD115254AC8D90002B201 /* TimeSlotModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042FD114254AC8D90002B201 /* TimeSlotModel.swift */; };
 		046E4AF825E91C2000CD1936 /* PortfolioSliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046E4AF725E91C2000CD1936 /* PortfolioSliderCollectionViewCell.swift */; };
+		046E4B1A25E93D9400CD1936 /* BuisnessHourDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046E4B1925E93D9400CD1936 /* BuisnessHourDetailModel.swift */; };
+		046E4B1F25E93DB500CD1936 /* CoverageDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046E4B1E25E93DB500CD1936 /* CoverageDetailModel.swift */; };
+		046E4B2325E93DDC00CD1936 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046E4B2225E93DDC00CD1936 /* LanguageModel.swift */; };
 		047D9E7E25512D4F002E1DA3 /* CalandarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D9E7B25512D4F002E1DA3 /* CalandarModel.swift */; };
 		047D9E7F25512D4F002E1DA3 /* Previous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D9E7C25512D4F002E1DA3 /* Previous.swift */; };
 		047D9E8025512D4F002E1DA3 /* Upcomming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D9E7D25512D4F002E1DA3 /* Upcomming.swift */; };
@@ -227,6 +230,9 @@
 		042FD114254AC8D90002B201 /* TimeSlotModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSlotModel.swift; sourceTree = "<group>"; };
 		0467742925DE55B3008A866E /* Spotslot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Spotslot.entitlements; sourceTree = "<group>"; };
 		046E4AF725E91C2000CD1936 /* PortfolioSliderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioSliderCollectionViewCell.swift; sourceTree = "<group>"; };
+		046E4B1925E93D9400CD1936 /* BuisnessHourDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuisnessHourDetailModel.swift; sourceTree = "<group>"; };
+		046E4B1E25E93DB500CD1936 /* CoverageDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverageDetailModel.swift; sourceTree = "<group>"; };
+		046E4B2225E93DDC00CD1936 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
 		047D9E7B25512D4F002E1DA3 /* CalandarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalandarModel.swift; sourceTree = "<group>"; };
 		047D9E7C25512D4F002E1DA3 /* Previous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Previous.swift; sourceTree = "<group>"; };
 		047D9E7D25512D4F002E1DA3 /* Upcomming.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upcomming.swift; sourceTree = "<group>"; };
@@ -570,6 +576,17 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		046E4B1825E93D8200CD1936 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04CF469525E91164009D31F3 /* ResponseWrapperModel.swift */,
+				046E4B1925E93D9400CD1936 /* BuisnessHourDetailModel.swift */,
+				046E4B1E25E93DB500CD1936 /* CoverageDetailModel.swift */,
+				046E4B2225E93DDC00CD1936 /* LanguageModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		047D9E7A25512D28002E1DA3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,7 +623,7 @@
 			children = (
 				0467742925DE55B3008A866E /* Spotslot.entitlements */,
 				04CF468D25E8BFC4009D31F3 /* DarkStyle.json */,
-				04CF469525E91164009D31F3 /* ResponseWrapperModel.swift */,
+				046E4B1825E93D8200CD1936 /* Models */,
 				04CF469025E8C617009D31F3 /* CustomClasses */,
 				04CF468625E8BD4B009D31F3 /* AddressPicker */,
 				0407EBE824EE95F400E95818 /* BookMarks */,
@@ -1222,6 +1239,7 @@
 				048D45E024EBA6B400A84442 /* Spotslot.xcdatamodeld in Sources */,
 				047DEC3A24F3AAB3004ADFBD /* SettingsCell.swift in Sources */,
 				04B1CAA724ED2A3100577028 /* TPKAScrollViewController.m in Sources */,
+				046E4B2325E93DDC00CD1936 /* LanguageModel.swift in Sources */,
 				04906209254FDF7200526378 /* DropDownDataModel.swift in Sources */,
 				04906204254FDF7200526378 /* UIImageView.swift in Sources */,
 				04F0F7E024ED356D00912EB7 /* ForgotPasswordVC.swift in Sources */,
@@ -1239,6 +1257,7 @@
 				049D6A47253D6099002FFF39 /* Services.swift in Sources */,
 				E3888D5A25E14CC500E18767 /* WaveTabBarPresenterBase.swift in Sources */,
 				04F0F7E224ED3A4900912EB7 /* VeryfyOTPVC.swift in Sources */,
+				046E4B1F25E93DB500CD1936 /* CoverageDetailModel.swift in Sources */,
 				04F6051624F39C1D00B3769A /* ProfileVC.swift in Sources */,
 				04A3EDA1253ABFB300704627 /* Constant.swift in Sources */,
 				04183F6A24EFDAA4002162A5 /* CatelogCell.swift in Sources */,
@@ -1278,6 +1297,7 @@
 				04F0F81424ED51F600912EB7 /* FirstVC.swift in Sources */,
 				047D9E88255172BD002E1DA3 /* All.swift in Sources */,
 				047DEC4424F3D476004ADFBD /* AddresslistCell.swift in Sources */,
+				046E4B1A25E93D9400CD1936 /* BuisnessHourDetailModel.swift in Sources */,
 				041BDFEF24F67A1E00A989C8 /* ApointmentCalandar.swift in Sources */,
 				04906207254FDF7200526378 /* RA_Button.swift in Sources */,
 				04B3D7A124F52C7C00B5ACCA /* SearchVC.swift in Sources */,
