@@ -18,14 +18,12 @@ class SideMenuViewController: UIViewController{
     @IBOutlet weak var tableview: UITableView!
     
     //MARK:- Class Variable-
-    var arrOfCustomerMenu = [SideMenu]()
-    var arrOfBuisnessMenu = [SideMenu]()
+    fileprivate let arrOfCustomerMenu = SideMenu.getAllMenus()
     var IsTypecustomer = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setCustomerMenu()
-         let topColor = #colorLiteral(red: 0.1176470588, green: 0.2235294118, blue: 0.2745098039, alpha: 1)
+        let topColor = #colorLiteral(red: 0.1176470588, green: 0.2235294118, blue: 0.2745098039, alpha: 1)
         let bottomColor = #colorLiteral(red: 0.1215686275, green: 0.1764705882, blue: 0.2039215686, alpha: 1)
         self.view.setGradientBackgrounds(colorTop: topColor, colorBottom: bottomColor, radius: 0)
         if let profile_img  = SharedPreference.getUserData().profile_image{
@@ -36,13 +34,7 @@ class SideMenuViewController: UIViewController{
         }
         
     }
-    func setCustomerMenu(){
-        let m1 = SideMenu(conName: "Appointments/Bookings", conIcon: #imageLiteral(resourceName: "calander"))
-        let m2 = SideMenu(conName: "Payments", conIcon: #imageLiteral(resourceName: "Payments"))
-        let m3 = SideMenu(conName: "Settings", conIcon:#imageLiteral(resourceName: "settings"))
-        let m4 = SideMenu(conName: "Help", conIcon: #imageLiteral(resourceName: "help"))
-        arrOfCustomerMenu = [m1,m2,m3,m4]
-    }
+
     
     
     @IBAction func btnLogOut(_ sender: Any) {
@@ -93,44 +85,31 @@ extension SideMenuViewController:UITableViewDelegate,UITableViewDataSource {
     
     //  Converted to Swift 5.3 by Swiftify v5.3.19197 - https://swiftify.com/
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-       // tableView.deselectRow(at: indexPath, animated: true)
-        
-        let navigationController = self.storyboard?.instantiateViewController(withIdentifier: "NavigationController") as! NavigationController
-        //UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "NavigationController") as! NavigationController
-        if indexPath.section == 0 && indexPath.row == 0{
-            
-            let vc = UIStoryboard(name: "Bookmarks", bundle: nil).instantiateViewController(withIdentifier: "BookmarksVC") as! BookmarksVC
-            let navigatCon = UINavigationController(rootViewController: vc)
-            
-              navigatCon.isNavigationBarHidden = true
-              self.present(navigatCon, animated: true, completion: nil)
 
-        }
-        if indexPath.section == 0 && indexPath.row == 1 {
-        
-        /*let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "ChangePaymentVC") as! ChangePaymentVC
-        let navigatCon = UINavigationController(rootViewController: vc)
-        
-          navigatCon.isNavigationBarHidden = true
-          self.present(navigatCon, animated: true, completion: nil)*/
-        
-            let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "PaymentListVC") as! PaymentListVC
-            /*let manageBankAccountRouter = ManageBankAccountsRouterImplementation(manageBankAccountCardsVC: vc)
-            vc.presenter = ManageBankAccountsPresenterImplementation(router: manageBankAccountRouter)*/
+        let navigationController = self.storyboard?.instantiateViewController(withIdentifier: "NavigationController") as! NavigationController
+        if indexPath.section == 0 && indexPath.row == 0{
+            let vc = UIStoryboard(name: "Bookmarks", bundle: nil).instantiateViewController(withIdentifier: "BookmarksVC") as! BookmarksVC
+            vc.isFromSideMenu = true
             navigationController.viewControllers = [vc]
             self.frostedViewController.contentViewController = navigationController
             
-        
+        }
+        if indexPath.section == 0 && indexPath.row == 1 {
+            let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "PaymentListVC") as! PaymentListVC
+            /*let manageBankAccountRouter = ManageBankAccountsRouterImplementation(manageBankAccountCardsVC: vc)
+             vc.presenter = ManageBankAccountsPresenterImplementation(router: manageBankAccountRouter)*/
+            navigationController.viewControllers = [vc]
+            self.frostedViewController.contentViewController = navigationController
+            
+            
         } else if indexPath.section == 0 && indexPath.row == 2 {
             
             let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
-            let navigatCon = UINavigationController(rootViewController: vc)
-            
-              navigatCon.isNavigationBarHidden = true
-            self.present(navigatCon, animated: true, completion: nil)
+            vc.isFromSideMenu = true
+            navigationController.viewControllers = [vc]
+            self.frostedViewController.contentViewController = navigationController
         }
-     
+        
         frostedViewController.hideMenuViewController()
     }
     
@@ -142,13 +121,21 @@ extension SideMenuViewController:UITableViewDelegate,UITableViewDataSource {
 
 //model For The SideMenu
 
-struct SideMenu {
+fileprivate struct SideMenu {
     var controllerName:String
     var controllerImg:UIImage
     
     init(conName:String,conIcon:UIImage) {
         self.controllerName = conName
         self.controllerImg = conIcon
+    }
+    
+    static func getAllMenus()-> [SideMenu] {
+        let m1 = SideMenu(conName: "Appointments/Bookings", conIcon: #imageLiteral(resourceName: "calander"))
+        let m2 = SideMenu(conName: "Payments", conIcon: #imageLiteral(resourceName: "Payments"))
+        let m3 = SideMenu(conName: "Settings", conIcon:#imageLiteral(resourceName: "settings"))
+        let m4 = SideMenu(conName: "Help", conIcon: #imageLiteral(resourceName: "help"))
+        return [m1,m2,m3,m4]
     }
 }
 

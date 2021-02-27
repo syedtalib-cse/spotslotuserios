@@ -159,22 +159,32 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3s7-fN-oVp" userLabel="TopView">
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qVP-3n-Tnp">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qVP-3n-Tnp">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MXt-RJ-vjT">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="left_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="MXt-RJ-vjT">
                                                 <rect key="frame" x="19" y="12.5" width="22" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="22" id="69O-ui-QxD"/>
                                                     <constraint firstAttribute="height" constant="25" id="Tn9-QH-XbA"/>
                                                 </constraints>
                                             </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hYN-yP-vbd">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
+                                                <connections>
+                                                    <action selector="backAction:" destination="hfI-r9-R48" eventType="touchUpInside" id="l06-Av-73l"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="1TH-k4-jYL"/>
+                                            <constraint firstItem="hYN-yP-vbd" firstAttribute="leading" secondItem="qVP-3n-Tnp" secondAttribute="leading" id="9pK-tX-q1g"/>
+                                            <constraint firstAttribute="trailing" secondItem="hYN-yP-vbd" secondAttribute="trailing" id="Ccl-Pt-jZG"/>
                                             <constraint firstItem="MXt-RJ-vjT" firstAttribute="centerX" secondItem="qVP-3n-Tnp" secondAttribute="centerX" id="Evs-Ec-sfa"/>
+                                            <constraint firstAttribute="bottom" secondItem="hYN-yP-vbd" secondAttribute="bottom" id="Fg7-E5-lIF"/>
                                             <constraint firstItem="MXt-RJ-vjT" firstAttribute="centerY" secondItem="qVP-3n-Tnp" secondAttribute="centerY" id="W63-y3-oc9"/>
+                                            <constraint firstItem="hYN-yP-vbd" firstAttribute="top" secondItem="qVP-3n-Tnp" secondAttribute="top" id="niu-Hx-Wp9"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iH3-8C-E54">
@@ -245,6 +255,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="lW0-Ka-gvm"/>
                     <connections>
+                        <outlet property="backView" destination="qVP-3n-Tnp" id="l8w-ED-CER"/>
                         <outlet property="clvTab" destination="Ovk-pD-IIA" id="ONf-5W-iW6"/>
                         <outlet property="tlvBookmark" destination="txd-fw-auy" id="Q0I-wg-LyW"/>
                         <outlet property="viewBG" destination="Jp7-V3-Wqz" id="O8b-Ws-wDH"/>
@@ -279,6 +290,7 @@
     <resources>
         <image name="bg_screen" width="1125" height="2436"/>
         <image name="bookmark" width="24" height="24"/>
+        <image name="left_arrow" width="14" height="25"/>
         <image name="name_image" width="189" height="49"/>
         <image name="search" width="16" height="16"/>
         <systemColor name="systemBackgroundColor">

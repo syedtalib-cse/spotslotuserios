@@ -13,7 +13,8 @@ class BookmarksVC: UIViewController {
     @IBOutlet weak var clvTab: UICollectionView!
     @IBOutlet weak var tlvBookmark: UITableView!
     @IBOutlet weak var viewBG: UIView!
-   // @IBOutlet weak var heightOFBookMark: NSLayoutConstraint!
+    @IBOutlet weak var backView: UIView!
+    // @IBOutlet weak var heightOFBookMark: NSLayoutConstraint!
     var arrModel = [TabModel]()
     
     var arrFavorite : [Favorite] = []
@@ -25,10 +26,13 @@ class BookmarksVC: UIViewController {
     let TabCol =  ColumnFlowLayoutwitFixWidth(cellsPerRow: 1, minimumInteritemSpacing: 5, minimumLineSpacing: 5, sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), height: 55, cus_width: 115)
     var arrTab = [String]()
     var isSelectedtab = 0
-    
+    var isFromSideMenu: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         intialConfig()
+    }
+    @IBAction func backAction(_ sender: Any) {
+        GlobalObj.setRootToDashboard()
     }
     
     @IBAction func btnSearch(_ sender: Any) {
@@ -50,6 +54,8 @@ extension BookmarksVC{
         self.clvTab.collectionViewLayout = self.TabCol
         storeData()
         webServicesCallingToGetAllBookedMarked()
+        
+        backView.isHidden =  isFromSideMenu ? false : true
     }
     
     func storeData()  {

@@ -21,7 +21,7 @@ class SettingsVC: UIViewController {
     
     var arrTitle = [String]()
     var notification_status = ""
-    
+    var isFromSideMenu: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         initialConfig()
@@ -29,7 +29,11 @@ class SettingsVC: UIViewController {
     }
     
     @IBAction func btnBack(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        if isFromSideMenu {
+            GlobalObj.setRootToDashboard()
+        }else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     @IBAction func btnOpenLanguageList(_ sender:Any){
