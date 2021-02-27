@@ -85,13 +85,28 @@ extension ProfileVC{
         txtfGender.text = "Male"
         txtfEllergy.text = response.objCustomerData?.allergies ?? ""
         HairCutFrequency.text = response.objCustomerData?.haircut_freuency ?? ""
-        if (response.objCustomerData?.favorite_styles!.count ?? 0)>3{
+        /*if (response.objCustomerData?.favorite_styles!.count ?? 0)>3{
             imgStyleFirst.sd_setImage(with: URL(string: response.objCustomerData?.favorite_styles?.first?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
             imgStyleSecond.sd_setImage(with: URL(string: response.objCustomerData?.favorite_styles?[1].image ?? ""), placeholderImage: UIImage(named: "placeholder"))
             imgStyleThird.sd_setImage(with: URL(string: response.objCustomerData?.favorite_styles?[1].image ?? ""), placeholderImage: UIImage(named: "placeholder"))
             btnremaining.setTitle("\((response.objCustomerData?.favorite_styles!.count ?? 0)-3)+", for: .normal)
         }else{
             
+        }*/
+        
+        if let favStyles = response.objCustomerData?.favorite_styles {
+            for (index, style) in favStyles.enumerated() {
+                if index == 0 {
+                    imgStyleFirst.sd_setImage(with: URL(string: style.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
+                } else if index == 1 {
+                    imgStyleSecond.sd_setImage(with: URL(string: style.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
+                }else if index == 2 {
+                    imgStyleThird.sd_setImage(with: URL(string: style.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
+                    if favStyles.count > 3 {
+                        btnremaining.setTitle("\(favStyles.count - 3)+", for: .normal)
+                    }
+                }
+            }
         }
    
     }

@@ -8,6 +8,15 @@
 
 import UIKit
 
+enum HairCutTimePeriod: String, CaseIterable {
+    case oneWeek = "1 week"
+    case twoWeeks = "2 week"
+    case threeWeeks = "3 weeks"
+    case oneMonth = "1 month"
+    case sixWeeks = "6 weeks"
+    case twoMonths = "2 months"
+}
+
 class EditProfileVC: UIViewController {
     
     @IBOutlet weak var viewTopBG: UIView!
@@ -22,10 +31,12 @@ class EditProfileVC: UIViewController {
     @IBOutlet weak var txtfLanguage: UITextField!
     
     //var objCustomerData:CustomerDataModel?
-    
+    var datePicker = UIDatePicker()
+    var pickerView = UIPickerView()
     override func viewDidLoad() {
         super.viewDidLoad()
         initialConfig()
+        createDatePicker()
     }
     
     @IBAction func btnBack(_ sender: Any) {
@@ -76,12 +87,94 @@ class EditProfileVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    func createDatePicker()  {
+        datePicker.datePickerMode = .date
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.isUserInteractionEnabled = true
+        datePicker.backgroundColor = #colorLiteral(red: 0.9333333333, green: 0.9490196078, blue: 0.9960784314, alpha: 1)
+        let textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        self.datePicker.setValue(textColor, forKey: "textColor")
+        toolBar.sizeToFit()
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:#selector(donetoShowDate))
+        doneBarButton.tintColor = #colorLiteral(red: 0.07843137255, green: 0.5529411765, blue: 0.5725490196, alpha: 1)
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        toolBar.setItems([doneBarButton], animated: false)
+        txtfDateOfBirth.inputAccessoryView = toolBar
+        txtfDateOfBirth.inputView = datePicker
+    }
+     
+    @objc func donetoShowDate()  {
+        let dateformater = DateFormatter()
+        dateformater.dateFormat = dateOfBirthFormate
+        let str = dateformater.string(from: datePicker.date)
+        txtfDateOfBirth.text = str
+        self.view.endEditing(true)
+    }
     
+    @objc func doneForPicker() {
+        self.view.endEditing(true)
+    }
     
 }
+
+extension EditProfileVC: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        HairCutTimePeriod.allCases.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        HairCutTimePeriod.allCases[row].rawValue
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        txtfServiceDuration.text = HairCutTimePeriod.allCases[row].rawValue
+    }
+}
+
+extension EditProfileVC: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        if textField == txtfServiceDuration {
+            pickerView.dataSource = self
+            pickerView.delegate = self
+            pickerView.reloadAllComponents()
+            let toolBar = UIToolbar()
+            toolBar.barStyle = .default
+            toolBar.isTranslucent = true
+            toolBar.isUserInteractionEnabled = true
+            //pickerView.backgroundColor = #colorLiteral(red: 0.9333333333, green: 0.9490196078, blue: 0.9960784314, alpha: 1)
+            let textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            self.pickerView.setValue(textColor, forKey: "textColor")
+            
+            toolBar.sizeToFit()
+            let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:#selector(doneForPicker))
+            doneBarButton.tintColor = #colorLiteral(red: 0.07843137255, green: 0.5529411765, blue: 0.5725490196, alpha: 1)
+
+            toolBar.setItems([doneBarButton], animated: false)
+            
+            txtfServiceDuration.inputAccessoryView = toolBar
+            txtfServiceDuration.inputView = pickerView
+            
+            pickerView.selectRow(0, inComponent: 0, animated: true)
+        }
+    }
+}
+
 //MARK:- Custom function here
 extension EditProfileVC{
     func initialConfig(){
+        txtfServiceDuration.delegate = self
         DispatchQueue.main.async {
             self.viewTopBG.roundedTop(width: 16, height: 16)
         }
