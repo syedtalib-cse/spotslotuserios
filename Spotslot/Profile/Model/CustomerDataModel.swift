@@ -11,7 +11,7 @@ struct CustomerDataModel : Mappable {
 	var password : String?
 	var gender : String?
 	var dob : String?
-	var language_know : String?
+	var language_know : [LanguageModel]?
     var profile_image:String?
     var notification_status : String?
     var favorite_styles : [Favorite_styles]?

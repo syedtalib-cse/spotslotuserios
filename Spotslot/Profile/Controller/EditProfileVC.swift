@@ -32,7 +32,8 @@ class EditProfileVC: UIViewController {
     
     //var objCustomerData:CustomerDataModel?
     var datePicker = UIDatePicker()
-    var pickerView = UIPickerView()
+    private var pickerView = UIPickerView()
+    private var venderLanguages: [LanguageModel]?
     override func viewDidLoad() {
         super.viewDidLoad()
         initialConfig()
@@ -61,15 +62,17 @@ class EditProfileVC: UIViewController {
     }
     
     @IBAction func btnAddlanguage(_ sender: Any) {
-        hideAndShow(toggle: false)
+        let vc = UIStoryboard(name: "Language", bundle: nil).instantiateViewController(withIdentifier: "LanguageListViewController") as! LanguageListViewController
+        vc.profileSelectedLanguages = venderLanguages
+        vc.languageAddCompletion = {[weak self] in
+            self?.navigationController?.popViewController(animated: true)
+            self?.webServicesToGetProfileData()
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func btnAddLanguageBycus(_ sender: Any) {
-        if self.txtfLanguage.text != ""{
-            self.webServicesToAddLanguageByCustomer()
-        }else{
-            self.showAnnouncement(withMessage: "Please enter language")
-        }
+
     }
     
    
@@ -153,7 +156,6 @@ extension EditProfileVC: UITextFieldDelegate {
             toolBar.barStyle = .default
             toolBar.isTranslucent = true
             toolBar.isUserInteractionEnabled = true
-            //pickerView.backgroundColor = #colorLiteral(red: 0.9333333333, green: 0.9490196078, blue: 0.9960784314, alpha: 1)
             let textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
             self.pickerView.setValue(textColor, forKey: "textColor")
             
@@ -197,8 +199,17 @@ extension EditProfileVC{
             self.txtfFullName.text = objCustomerData?.name ?? ""
             self.txtfDateOfBirth.text = objCustomerData?.dob ?? ""
             self.txtfAllergies.text = objCustomerData?.allergies ?? ""
-            self.lblLangauge.text = objCustomerData?.language_know ?? ""
             self.txtfServiceDuration.text = objCustomerData?.haircut_freuency ?? ""
+            
+            self.venderLanguages = objCustomerData?.language_know ?? []
+            let selectedLanguagesNames = objCustomerData?.language_know?.reduce([String](), { (result, language) -> [String] in
+                var _result = result
+                if language.languageName != nil {
+                    _result.append(language.languageName ?? "")
+                }
+                return _result
+            }).joined(separator: ", ")
+            self.lblLangauge.text = selectedLanguagesNames
         }
     }
     func toSelectImageFromGallery() {
@@ -248,21 +259,12 @@ extension EditProfileVC:UIImagePickerControllerDelegate,UINavigationControllerDe
 //MARK:- Webservice calling here -
 extension EditProfileVC{
     
-    func webServicesToAddLanguageByCustomer(){
-        let para = [ParametersKey.language.rawValue:self.txtfLanguage.text!]
-        UserDataModel.webServicesToAddLanguage(params:para) { (response) in
-            if response != nil{
-                self.txtfLanguage.text = ""
-                self.webServicesToGetProfileData()
-                self.hideAndShow(toggle: true)
-            }
-        }
-    }
-    
     func webServiceCalToUpdateProfile(image:UIImage,para:[String:Any]) {
         UserDataModel.WebserviceCallingtoUploadProfilePic(imagePara: image, imageName: ParametersKey.image.rawValue, params: para) { (response) in
             if response != nil{
-                self.webServicesToGetProfileData()
+                GlobalObj.displayAlertWithHandler(with: appName, message: "Profile Updated Successfully", buttons: ["Ok"], viewobj: self) { [weak self] (_) in
+                    self?.navigationController?.popViewController(animated: true)
+                }
             }
             
         }

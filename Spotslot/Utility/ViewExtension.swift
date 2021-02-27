@@ -77,6 +77,15 @@ extension UIView{
         layer.cornerRadius = cRadius
     }
     
+    func addTopBottomShadow(offset: CGSize = CGSize(width: 0, height: 10), color: UIColor = .black, opacity: Float = 0.5, shadowRadius: CGFloat = 5.0, cornerRadius: CGFloat = 16) {
+        self.layer.masksToBounds = false
+        self.layer.shadowColor = color.cgColor
+        self.layer.cornerRadius = cornerRadius
+        self.layer.shadowOffset = offset
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowRadius = shadowRadius
+    }
+    
 }
 extension UIView {
     @IBInspectable var hazardSourceType: CGFloat {

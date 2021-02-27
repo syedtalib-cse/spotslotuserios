@@ -81,7 +81,7 @@ extension ProfileVC{
         imgProfile.sd_setImage(with: URL(string: response.objCustomerData?.profile_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
         lblName.text = response.objCustomerData?.name ?? ""
         notification_status = response.objCustomerData?.notification_status ?? ""
-        txtfLanguage.text = response.objCustomerData?.language_know ?? ""
+        //txtfLanguage.text = response.objCustomerData?.language_know ?? ""
         txtfGender.text = "Male"
         txtfEllergy.text = response.objCustomerData?.allergies ?? ""
         HairCutFrequency.text = response.objCustomerData?.haircut_freuency ?? ""
@@ -93,6 +93,16 @@ extension ProfileVC{
         }else{
             
         }*/
+        
+        let selectedLanguagesNames = response.objCustomerData?.language_know?.reduce([String](), { (result, language) -> [String] in
+            var _result = result
+            if language.languageName != nil {
+                _result.append(language.languageName ?? "")
+            }
+            
+            return _result
+        }).joined(separator: ", ")
+        self.txtfLanguage.text = selectedLanguagesNames
         
         if let favStyles = response.objCustomerData?.favorite_styles {
             for (index, style) in favStyles.enumerated() {
