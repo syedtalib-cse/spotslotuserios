@@ -12,16 +12,18 @@ import GooglePlaces
 
 class SplotSlotMarker: GMSMarker {
     
-    init(image: UIImage? = #imageLiteral(resourceName: "success_logo")) {
+    init(image: UIImage? = #imageLiteral(resourceName: "pin")) {
         super.init()
-        let _iconView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let _iconView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
         let imageView = UIImageView()
         imageView.frame = _iconView.frame
         imageView.image = image
+        imageView.contentMode = .scaleAspectFit
         _iconView.addSubview(imageView)
-        _iconView.layer.cornerRadius = _iconView.frame.size.height / 2
-        _iconView.layer.borderWidth = 1.5
-        _iconView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
+        //_iconView.layer.cornerRadius = _iconView.frame.size.height / 2
+        //_iconView.layer.borderWidth = 1.5
+        //_iconView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.iconView = _iconView
     }
 }

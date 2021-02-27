@@ -163,10 +163,9 @@ extension ChanegPasswordVC{
         let para = getAllParameter()
         UserDataModel.webServicesToChanegThePassword(params: para) { (response) in
             if response != nil{
-                //self.showAnnouncement(withMessage: response?.message ?? "") {
-                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SuccessOnResetPasswordVC") as! SuccessOnResetPasswordVC
-                    self.navigationController?.pushViewController(vc, animated: true)
-                //}
+                self.showAnnouncement(withMessage: response?.message ?? "") { [weak self] in
+                    self?.navigationController?.popViewController(animated: true)
+                }
             }
         }
     }

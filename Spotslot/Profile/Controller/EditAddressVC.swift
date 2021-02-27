@@ -142,7 +142,7 @@ extension EditAddressVC{
         self.navigationController?.setNavigationBarHidden(true, animated:true)
         self.tlvAddressList.register(UINib(nibName: "AddresslistCell", bundle: nil), forCellReuseIdentifier: "AddresslistCell")
         hideAndShow(toggle: true)
-       mapView.backgroundColor = UIColor.black
+        mapView.backgroundColor = UIColor.black
         hideMap(toggle: true)
         webSerVicessToGetAddressList()
         
@@ -157,7 +157,18 @@ extension EditAddressVC{
         if let profile_img  = SharedPreference.getUserData().profile_image{
             self.imgUser.sd_setImage(with: URL(string:profile_img), placeholderImage: UIImage(named: "placeholder"))
         }
+        
+        do {
+            // Set the map style by passing the URL of the local file.
+            if let styleURL = Bundle.main.url(forResource: "DarkStyle", withExtension: "json") {
+                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+            } else {
+                NSLog("Unable to find style.json")
+            }
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
         }
+    }
    
     func hideAndShow(toggle:Bool){
         self.viewBG.isHidden = toggle
@@ -174,7 +185,7 @@ extension EditAddressVC{
         mapView.clear()
         let position = CLLocationCoordinate2D(latitude:coordinate.latitude, longitude: coordinate.longitude)
         let marker = GMSMarker(position: position)
-        marker.icon = GMSMarker.markerImage(with: #colorLiteral(red: 0.9832366109, green: 0.7234969139, blue: 0.2646969259, alpha: 1))
+        marker.icon = #imageLiteral(resourceName: "pin")
         marker.tracksViewChanges = true
         marker.isDraggable = true
         marker.title = title
@@ -400,8 +411,11 @@ extension EditAddressVC: GMSAutocompleteViewControllerDelegate {
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         self.txtfAddress.text = place.formattedAddress ?? ""
+        self.lblLocationAddress.text = place.formattedAddress ?? ""
         self.latitude = String(place.coordinate.latitude)
         self.longitude = String(place.coordinate.longitude)
+        self.setMarkeronLocation(place.coordinate, title: place.formattedAddress ?? "" ,snippet: "")
+        mapView.camera = GMSCameraPosition(target: place.coordinate, zoom: 16, bearing: 15, viewingAngle: 0)
         dismiss(animated: true, completion: nil)
     }
     
