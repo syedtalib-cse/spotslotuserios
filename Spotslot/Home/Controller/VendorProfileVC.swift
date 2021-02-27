@@ -79,7 +79,7 @@ class VendorProfileVC: UIViewController {
     
     var timer = Timer()
     var counter = 0
-    
+    var mainAddress: CoverageDetail?
     override func viewDidLoad() {
         super.viewDidLoad()
         intialConfig()
@@ -126,12 +126,13 @@ class VendorProfileVC: UIViewController {
     }
     
     @IBAction func btnSelectSlot(_ sender: Any) {
-        if  self.isSelectedService{
+        if  self.isSelectedService, mainAddress != nil {
             dataDic[ParametersKey.no_of_person.rawValue] =  self.lblNumberoFpeople.text!
             let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "ApointmentCalandar") as! ApointmentCalandar
             vc.hidesBottomBarWhenPushed = true
             vc.dicData = self.dataDic
             vc.vendorId = self.vendor_id
+            vc.mainAddress = mainAddress
             self.navigationController?.pushViewController(vc, animated: true)
         }else{
             self.showAnnouncement(withMessage: "Please select services before to proceed booking")
@@ -328,6 +329,10 @@ extension VendorProfileVC{
             return _result
         }).joined(separator: ", ")
         lblLanguage.text = selectedLanguagesNames
+    }
+    
+    private func setMainAddress(coverageDetails: CoverageDetail?) {
+        self.mainAddress = coverageDetails
     }
     
     private func setLikeDislikePortfoliosWith(status: Bool, cell: PortfolioSliderCollectionViewCell) {
@@ -531,6 +536,7 @@ extension VendorProfileVC{
                 self.toSetDataOnProfile(vendorAbout: responseModel?.VendorProfile?.about ?? About())
                 self.setBusinessHoursDetails(responseModel?.VendorProfile?.buisness_hours)
                 self.setLanguages(responseModel?.VendorProfile?.languages)
+                self.setMainAddress(coverageDetails: responseModel?.VendorProfile?.setcoverage)
                 self.services = self.filterServices(responseModel?.VendorProfile?.services ?? [])
                 self.arrOfportfolio = responseModel?.VendorProfile?.portfolio ?? []
                 if self.arrOfportfolio.count != 0{

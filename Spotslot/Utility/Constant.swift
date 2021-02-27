@@ -10,7 +10,7 @@ import Foundation
 
 let dateOfBirthFormate = "yyyy-MM-dd"
 let appName = "Spotslot"
-let travelFee = 10
+//let travelFee = 10
 
 
 

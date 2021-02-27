@@ -229,6 +229,8 @@ extension AddressPickerViewController: GMSMapViewDelegate {
         }
         marker.position = centerMapCoordinate
         marker.map = self.viewMap
+        self.longitude = "\(centerMapCoordinate.longitude)"
+        self.latitude = "\(centerMapCoordinate.latitude )"
         viewMap.camera = GMSCameraPosition(target: centerMapCoordinate, zoom: 16, bearing: 15, viewingAngle: 0)
     }
 }

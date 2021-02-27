@@ -56,7 +56,7 @@ class ReviewApointmentVC: UIViewController {
     var latitude:Double = 0.0
     var longitude:Double = 0.0
     var address = ""
-    
+    var mainAddress: CoverageDetail!
     private var dates = [Date]()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,10 +134,11 @@ class ReviewApointmentVC: UIViewController {
     @IBAction func btnPushToSumarry(_ sender: Any) {
         let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "BookingSummaryVC") as! BookingSummaryVC
         vc.dataDic = self.dataDic
-        if latitude != 0 && longitude != 0, let addressText = self.lblLocations.text, !addressText.isEmpty {
+        if latitude != 0 && longitude != 0, let addressText = self.lblLocations.text, !addressText.isEmpty, mainAddress != nil {
             vc.latitude = latitude
             vc.longitude = longitude
             vc.address = addressText
+            vc.mainAddress = mainAddress
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             self.showAnnouncement(withMessage: "Please Select Location for booking.")
