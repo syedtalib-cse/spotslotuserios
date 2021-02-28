@@ -18,6 +18,7 @@ class PortfolioSliderCollectionViewCell: UICollectionViewCell {
             imgPortfolio.sd_setImage(with: URL(string: objVendorPortfolio?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
             print(objVendorPortfolio?.isFavorite)
             btnLikeDislike.isSelected = objVendorPortfolio?.isFavorite ?? 0 == 0 ? false : true
+            btnLikeDislike.superview?.setViewShadow(opacity: 1.0, cRadius: 20)
         }
     }
     

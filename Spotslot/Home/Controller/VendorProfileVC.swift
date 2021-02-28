@@ -164,6 +164,7 @@ class VendorProfileVC: UIViewController {
     @IBAction func btnBookVendor(_ sender: UIButton) {
         self.isHiden(about: true, service: false, portfolio: true)
         setBackColorTobtn(about: true, service: false, portfolio: true)
+        viewSelectSlot.isHidden = false
         self.tlvhair.reloadData()
     }
     
@@ -210,18 +211,18 @@ extension VendorProfileVC{
     }
     
     @objc func changeImage()  {
-        if counter < arrOfportfolio.count {
+        /*if counter < arrOfportfolio.count {
             let index = IndexPath(item: counter, section: 0)
             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
             pageView.currentPage = counter
             counter += 1
-        } else {
+        } else {*/
             counter = 0
             let index = IndexPath.init(item: counter, section: 0)
             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
             pageView.currentPage = counter
             counter = 1
-        }
+        //}
         lblCounterforSlider.text = "\(counter) of \(arrOfportfolio.count)"
     }
     
