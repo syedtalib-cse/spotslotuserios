@@ -38,7 +38,7 @@ class HomeCell: UITableViewCell {
              if vendorObj?.is_profile_verify! == "1"{
                 imgVeriFy.image = UIImage(named: "checkIcons")
             }else{
-                imgVeriFy.image = UIImage(named: "unverified")
+                imgVeriFy.image = nil //UIImage(named: "unverified")
             }
             lblRating.text = "\(vendorObj?.vendor_avag_rating ?? 0)"
             if vendorObj?.isBookmark == 1{

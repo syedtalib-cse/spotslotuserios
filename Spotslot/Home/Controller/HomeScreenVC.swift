@@ -225,7 +225,7 @@ extension HomeScreenVC{
         if obj.is_profile_verify! == "1"{
             imgVeriFy.image = UIImage(named: "checkIcons")
         }else{
-            imgVeriFy.image = UIImage(named: "unverified")
+            imgVeriFy.image = nil //UIImage(named: "unverified")
         }
         if obj.is_available! == "1"{
             self.lblAvailableCircle.isHidden = false

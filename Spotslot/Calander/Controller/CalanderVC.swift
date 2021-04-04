@@ -155,7 +155,7 @@ extension CalanderVC:UITableViewDelegate,UITableViewDataSource{
     func setDataToPopUp(objPrevious:Previous)  {
        imgVendor.sd_setImage(with: URL(string: objPrevious.vendor_image ?? ""), placeholderImage: UIImage(named: "placeholder."))
         lblSpecialization.text = objPrevious.username ?? ""
-        lblUserName.text = objPrevious.vendor_name ?? ""
+        lblUserName.text = ""//objPrevious.vendor_name ?? ""
         
         //lblOrderNumber.text = ""
         

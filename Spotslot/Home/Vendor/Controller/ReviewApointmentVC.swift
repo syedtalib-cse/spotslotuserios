@@ -134,14 +134,18 @@ class ReviewApointmentVC: UIViewController {
     @IBAction func btnPushToSumarry(_ sender: Any) {
         let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "BookingSummaryVC") as! BookingSummaryVC
         vc.dataDic = self.dataDic
-        if latitude != 0 && longitude != 0, let addressText = self.lblLocations.text, !addressText.isEmpty, mainAddress != nil {
+        if latitude != 0 && longitude != 0, let addressText = self.lblLocations.text, !addressText.isEmpty, mainAddress != nil, !primeSlot.isEmpty, !SecondarySlot.isEmpty {
             vc.latitude = latitude
             vc.longitude = longitude
             vc.address = addressText
             vc.mainAddress = mainAddress
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
-            self.showAnnouncement(withMessage: "Please Select Location for booking.")
+            if primeSlot.isEmpty || SecondarySlot.isEmpty {
+                self.showAnnouncement(withMessage: "Please Select Primary & Secondry timeslots for booking.")
+            }else {
+                self.showAnnouncement(withMessage: "Please Select Location for booking.")
+            }
         }
     }
     

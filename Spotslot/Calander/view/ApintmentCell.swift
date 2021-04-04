@@ -40,7 +40,7 @@ class ApintmentCell: UITableViewCell {
         didSet{
             lblDate.text = objAppointment?.appointment_date ?? ""
             vendorUserName.text = objAppointment?.username ?? ""
-            vendorName.text = objAppointment?.vendor_name ?? ""
+            vendorName.text = ""//objAppointment?.vendor_name ?? ""
             lblRate.text = "\(objAppointment?.avag_rating ?? 0)"
             imgVendor.sd_setImage(with: URL(string: objAppointment?.vendor_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
             if objAppointment?.isRated == 1{

@@ -36,6 +36,7 @@ class RateVC: UIViewController {
     @IBOutlet weak var lblVendorame: UILabel!
     
     @IBOutlet weak var lblTipAmount: UILabel!
+    @IBOutlet weak var lblLeaveTipForVendor: UILabel!
     
     
     var objPrevious :Previous?
@@ -50,6 +51,7 @@ class RateVC: UIViewController {
             self.viewTop.roundedTop(width: 16, height: 16)
             self.viewBottom.roundedTop(width: 16, height: 16)
         }
+        lblLeaveTipForVendor.text = ""
         setData()
         closeView(toggle: true)
     }
@@ -189,10 +191,11 @@ extension RateVC{
             imgVendor.sd_setImage(with: URL(string:objPrevious?.vendor_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
             print("profile image url is \(objPrevious?.vendor_image ?? "")")
             lblUserName.text = objPrevious?.username ?? ""
-            lblVendorName.text = objPrevious?.vendor_name ?? ""
+            lblVendorName.text = ""//objPrevious?.vendor_name ?? ""
             imgVendors.sd_setImage(with: URL(string:objPrevious?.vendor_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
             lblUserNameOnPopUp.text = objPrevious?.username ?? ""
-            lblVendorame.text = objPrevious?.vendor_name ?? ""
+            
+            lblLeaveTipForVendor.text = "Leave a tip for \(objPrevious?.username ?? "") if you’re satisfied with the service"
         }
     }
     

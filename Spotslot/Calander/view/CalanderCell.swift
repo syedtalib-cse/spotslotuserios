@@ -41,6 +41,7 @@ class CalanderCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        imgTick.image = nil
     }
 
    

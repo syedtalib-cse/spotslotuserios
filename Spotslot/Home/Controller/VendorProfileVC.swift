@@ -135,7 +135,11 @@ class VendorProfileVC: UIViewController {
             vc.mainAddress = mainAddress
             self.navigationController?.pushViewController(vc, animated: true)
         }else{
-            self.showAnnouncement(withMessage: "Please select services before to proceed booking")
+            if mainAddress == nil {
+                self.showAnnouncement(withMessage: "Vendor doesn't fill all details, please choose another vendor")
+            }else {
+                self.showAnnouncement(withMessage: "Please select services to proceed booking")
+            }
         }
     }
     
@@ -285,7 +289,7 @@ extension VendorProfileVC{
     func toSetDataOnProfile(vendorAbout:About){
         imgCover.sd_setImage(with: URL(string: vendorAbout.background_img ?? ""), placeholderImage: UIImage(named: "cover_placeholder"))
         imgUser.sd_setImage(with: URL(string: vendorAbout.profile_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
-        lblname.text = vendorAbout.name ?? ""
+        lblname.text = ""//vendorAbout.name ?? ""
         lblUserName.text = vendorAbout.user_name ?? ""
         btnBookVendor.setTitle("Book \(vendorAbout.user_name ?? "")", for: .normal)
         if (vendorAbout.criminal_record_status ?? "") == "1"{
@@ -296,7 +300,7 @@ extension VendorProfileVC{
         if (vendorAbout.is_profile_verify ?? "") == "1"{
             imgIsVerified.image = UIImage(named: "checkIcons")
         }else{
-            imgIsVerified.image = UIImage(named: "unverified")
+            imgIsVerified.image = nil //UIImage(named: "unverified")
         }
         lblRating.text = "\(vendorAbout.avag_rating ?? 0)"
         self.rating_list = vendorAbout.rating_list ?? []
