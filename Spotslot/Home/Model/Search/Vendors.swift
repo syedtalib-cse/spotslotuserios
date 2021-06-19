@@ -50,6 +50,7 @@ struct Vendors : Mappable {
 	var notification_status : String?
 	var created_at : String?
 	var updated_at : String?
+    var specialize: String?
 
 	init?(map: Map) {
 
@@ -92,6 +93,7 @@ struct Vendors : Mappable {
 		notification_status <- map["notification_status"]
 		created_at <- map["created_at"]
 		updated_at <- map["updated_at"]
+        specialize <- map["specialize"]
 	}
 
 }

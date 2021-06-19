@@ -175,9 +175,15 @@ extension BookingSummaryVC{
         let para = getAllParameter(paymentId:paymentId,transaction_id:transaction_id,status:status)
         UserDataModel.webServicesToBookServices(params: para) { (response) in
             if response != nil{
+                if response?.status == 200 {
                 //self.showAnnouncement(withMessage: response?.message ?? "") {
                 self.pushToSuccess()
                 //  }
+                } else {
+                    self.showAnnouncement(withMessage: response?.message ?? "") {
+                        
+                    }
+                }
             }
         }
     }
@@ -191,6 +197,8 @@ extension BookingSummaryVC{
                         self.webServiceToBookServices(paymentId: "\(response?.objPaymentModel?.payment_id ?? 0)", transaction_id: response?.objPaymentModel?.transaction_id ?? "", status: response?.objPaymentModel?.stripe_status ?? "")
                     }
                     //do your code here
+                }else {
+                    self.showAnnouncement(withMessage: response?.message ?? "") { }
                 }
             }
         }
@@ -252,9 +260,20 @@ extension BookingSummaryVC{
                 return
             }
             print("token is \(token.tokenId)")
-            let para = [ParametersKey.stripeToken.rawValue:token.tokenId,
+            
+            var para = [ParametersKey.stripeToken.rawValue:token.tokenId,
                         ParametersKey.payment_card_id.rawValue:"0",
                         ParametersKey.amount.rawValue: self.finalTotalFee] as [String : Any]
+            
+            if let date = self.dataDic["appointmentDate"] as? String{
+                para[ParametersKey.appointment_date.rawValue] = date
+            }
+            
+            if let service = self.dataDic["service"] as? Service_list{
+                para[ParametersKey.service_id.rawValue] = service.id ?? ""
+                para[ParametersKey.service_type.rawValue] = service.service_type ?? ""
+            }
+
             self.webServiceToMakePayment(para: para)
             print(token.tokenId)
         }

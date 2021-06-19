@@ -27,6 +27,11 @@ class ApointmentCalandar: UIViewController {
   
     var vendorId = ""
     var mainAddress: CoverageDetail!
+    
+    var latitude:Double = 0.0
+    var longitude:Double = 0.0
+    var address = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fsCalander.scrollDirection = .vertical
@@ -47,6 +52,11 @@ class ApointmentCalandar: UIViewController {
             vc.dataDic = self.dicData
             vc.selectedDate = selectedDatefromCalender
             vc.vendorId = self.vendorId
+            
+            vc.latitude = self.latitude
+            vc.longitude = self.longitude
+            vc.address = self.address
+            
             if mainAddress !=  nil {
                 vc.mainAddress = mainAddress
                 self.navigationController?.pushViewController(vc, animated: true)

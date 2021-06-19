@@ -160,6 +160,9 @@ extension HomeScreenVC{
     func pushToVendorProfile()  {
         let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "VendorProfileVC") as! VendorProfileVC
         vc.vendor_id  = self.vendor_id
+        vc.latitude = self.latitude
+        vc.longitude = self.longitude
+        vc.address = self.address
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }

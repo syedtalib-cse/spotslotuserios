@@ -156,8 +156,8 @@ extension SearchVC:UITableViewDataSource,UITableViewDelegate{
             cell.objSearchVendor = self.arrOfVendors[indexPath.row]
             cell.imgTopBanner.sd_setImage(with: URL(string: self.arrOfVendors[indexPath.row].background_img ?? ""), placeholderImage: UIImage(named: "placeholder"))
             cell.imgUserProfile.sd_setImage(with: URL(string: self.arrOfVendors[indexPath.row].profile_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
-            cell.lblName.text = self.arrOfVendors[indexPath.row].user_name ?? ""
-            cell.lblUserName.text = self.arrOfVendors[indexPath.row].name ?? ""
+            cell.lblName.text = self.arrOfVendors[indexPath.row].specialize ?? ""
+            cell.lblUserName.text = self.arrOfVendors[indexPath.row].user_name ?? ""
                            if self.arrOfVendors[indexPath.row].criminal_record_status! == "1"{
                             cell.imgBDS.image = UIImage(named: "DBS")
                            }else{
@@ -166,7 +166,7 @@ extension SearchVC:UITableViewDataSource,UITableViewDelegate{
                             if self.arrOfVendors[indexPath.row].is_profile_verify! == "1"{
                                 cell.imgVeriFy.image = UIImage(named: "checkIcons")
                            }else{
-                            cell.imgVeriFy.image = UIImage(named: "unverified")
+                            cell.imgVeriFy.image = nil //UIImage(named: "unverified")
                            }
 //            cell.lblRating.text = "\(objVendor.vendor_avag_rating ?? 0)"
 //                           if self.arrOfVendors[indexPath.row].isBookmark == 1{

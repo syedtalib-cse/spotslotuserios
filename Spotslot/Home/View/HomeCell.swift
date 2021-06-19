@@ -29,7 +29,7 @@ class HomeCell: UITableViewCell {
             imgUserProfile.sd_setImage(with: URL(string: vendorObj?.profile_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
 
             lblUserName.text = vendorObj?.user_name ?? ""
-            lblName.text = ""
+            lblName.text = vendorObj?.specialize ?? ""
             if vendorObj?.criminal_record_status! == "1"{
                imgBDS.image = UIImage(named: "DBS")
             }else{
@@ -55,7 +55,7 @@ class HomeCell: UITableViewCell {
                imgTopBanner.sd_setImage(with: URL(string: vendorObj?.background_img ?? ""), placeholderImage: UIImage(named: "placeholder"))
                imgUserProfile.sd_setImage(with: URL(string: vendorObj?.profile_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
                lblName.text = vendorObj?.user_name ?? ""
-               lblUserName.text = vendorObj?.name ?? ""
+               lblUserName.text = vendorObj?.specialize ?? ""
                if vendorObj?.criminal_record_status! == "1"{
                   imgBDS.image = UIImage(named: "DBS")
                }else{
@@ -64,7 +64,7 @@ class HomeCell: UITableViewCell {
                 if vendorObj?.is_profile_verify! == "1"{
                    imgVeriFy.image = UIImage(named: "checkIcons")
                }else{
-                   imgVeriFy.image = UIImage(named: "unverified")
+                   imgVeriFy.image = nil //UIImage(named: "unverified")
                }
                lblRating.text = "\(vendorObj?.vendor_avag_rating ?? 0)"
 //            if objAll?.isBookmark == 1{

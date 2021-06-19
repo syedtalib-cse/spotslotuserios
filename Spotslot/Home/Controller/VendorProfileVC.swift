@@ -80,6 +80,11 @@ class VendorProfileVC: UIViewController {
     var timer = Timer()
     var counter = 0
     var mainAddress: CoverageDetail?
+    
+    var latitude:Double = 0.0
+    var longitude:Double = 0.0
+    var address = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         intialConfig()
@@ -133,6 +138,11 @@ class VendorProfileVC: UIViewController {
             vc.dicData = self.dataDic
             vc.vendorId = self.vendor_id
             vc.mainAddress = mainAddress
+            
+            vc.latitude = self.latitude
+            vc.longitude = self.longitude
+            vc.address = self.address
+            
             self.navigationController?.pushViewController(vc, animated: true)
         }else{
             if mainAddress == nil {
@@ -289,7 +299,7 @@ extension VendorProfileVC{
     func toSetDataOnProfile(vendorAbout:About){
         imgCover.sd_setImage(with: URL(string: vendorAbout.background_img ?? ""), placeholderImage: UIImage(named: "cover_placeholder"))
         imgUser.sd_setImage(with: URL(string: vendorAbout.profile_image ?? ""), placeholderImage: UIImage(named: "placeholder"))
-        lblname.text = ""//vendorAbout.name ?? ""
+        lblname.text = vendorAbout.specialize ?? ""
         lblUserName.text = vendorAbout.user_name ?? ""
         btnBookVendor.setTitle("Book \(vendorAbout.user_name ?? "")", for: .normal)
         if (vendorAbout.criminal_record_status ?? "") == "1"{

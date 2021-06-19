@@ -64,9 +64,14 @@ class ReviewApointmentVC: UIViewController {
         //fsCalandar.scope = .week
         //fsCalandar.delegate = self
        
-        locationConfigure()
+        //locationConfigure()
+        setPreviousVCAddress()
         getDates()
        
+    }
+    
+    private func setPreviousVCAddress() {
+        self.lblLocations.text = self.address
     }
     
     private func getDates() {

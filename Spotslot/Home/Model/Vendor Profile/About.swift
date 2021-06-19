@@ -42,6 +42,7 @@ struct About : Mappable {
 	var languages : String?
     var isBookmark:Int?
     var time_slot : Time_slot?
+    var specialize: String?
     init() {
     }
     
@@ -89,6 +90,7 @@ struct About : Mappable {
 		languages <- map["languages"]
         isBookmark <- map["isBookmark"]
         time_slot <- map["time_slot"]
+        specialize <- map["specialize"]
 	}
 
 }

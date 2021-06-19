@@ -38,6 +38,7 @@ struct VendorlistModel: Mappable {
     var vendor_avag_rating : Int?
     var portfolio : [Portfolio]?
     var isBookmark : Int?
+    var specialize: String?
     init?(map: Map) {
     }
 
@@ -76,6 +77,7 @@ struct VendorlistModel: Mappable {
         vendor_avag_rating <- map["vendor_avag_rating"]
         portfolio <- map["portfolio"]
         isBookmark <- map["isBookmark"]
+        specialize <- map["specialize"]
     }
 
 }
