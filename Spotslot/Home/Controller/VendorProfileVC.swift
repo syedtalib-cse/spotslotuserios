@@ -204,6 +204,7 @@ extension VendorProfileVC{
     
     
     func intialConfig(){
+        initiaResetUIDetails()
         self.isHiden(about: false, service: true, portfolio: true)
         DispatchQueue.main.async {
             self.viewBG.roundedTop(width: 16, height: 16)
@@ -326,6 +327,25 @@ extension VendorProfileVC{
         self.clvReview.reloadData()
       
    }
+    
+    private func initiaResetUIDetails() {
+        imgCover.image = UIImage(named: "cover_placeholder")
+        imgUser.image = UIImage(named: "placeholder")
+        lblname.text = ""
+        lblUserName.text = ""
+        btnBookVendor.setTitle("Book)", for: .normal)
+        imgIsCleanForCriminalRecord.image = UIImage(named: "not_verified_criminal_record")
+        imgIsVerified.image = nil //UIImage(named: "unverified")
+        lblRating.text = "0"
+        lblTotalRatedUser.text = "0"
+        lblAvrageRating.text = "0"
+        lblBio.text = ""
+        imgBookMarked.image = UIImage(named: "bookmark")
+        lblLanguage.text = ""
+        lblMondayToFriday.text = ""
+        lblSaturday.text = ""
+        lblSunday.text = ""
+    }
     
     private func setBusinessHoursDetails(_ model: BuisnessHourDetail?) {
         lblMondayToFriday.text = model?.monFri ?? ""
