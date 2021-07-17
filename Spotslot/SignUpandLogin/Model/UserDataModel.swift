@@ -196,11 +196,11 @@ struct UserDataModel : Mappable {
       }
     
     //To get timeSlot data vendorId
-    static func webServicesTogetTimeSlotData(params:[String:Any],completion:@escaping(UserDataModel?) -> Void){
+    static func webServicesTogetTimeSlotData(params:[String:Any],completion:@escaping(TimeSlot?) -> Void){
        // SVProgressHUD.show()
         print(params)
         objWebServiceManager.requestPost(strURL:defualtTimeSlot, params:params, showIndicator: true, success: { (response) in
-            let responseModel = Mapper<UserDataModel>().map(JSONString: response)
+            let responseModel = Mapper<TimeSlot>().map(JSONString: response)
             completion(responseModel)
         }) { (error) in
           //  SVProgressHUD.dismiss()

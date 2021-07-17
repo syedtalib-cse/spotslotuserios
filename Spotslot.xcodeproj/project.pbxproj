@@ -1027,8 +1027,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 048D45E924EBA6B500A84442 /* Build configuration list for PBXNativeTarget "Spotslot" */;
 			buildPhases = (
-				F582C622A8B72D81C76D902C /* Binary Libraries Compiler */,
 				1CF53DE6F1B2BBD5B8F7A366 /* [CP] Check Pods Manifest.lock */,
+				F582C622A8B72D81C76D902C /* Binary Libraries Compiler */,
 				048D45CE24EBA6B400A84442 /* Sources */,
 				048D45CF24EBA6B400A84442 /* Frameworks */,
 				048D45D024EBA6B400A84442 /* Resources */,

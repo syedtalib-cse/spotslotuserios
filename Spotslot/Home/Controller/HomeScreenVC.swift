@@ -38,7 +38,7 @@ class HomeScreenVC: UIViewController {
     
     //MARK:- for the portfolio
     @IBOutlet weak var imgPortFolio1: UIImageView!
-    @IBOutlet weak var imgPortFlio2: UIImageView!
+    @IBOutlet weak var imgPortFolio2: UIImageView!
     @IBOutlet weak var imgPortFolio3: UIImageView!
     
     @IBOutlet weak var viewPortFolio1: UIView!
@@ -50,6 +50,7 @@ class HomeScreenVC: UIViewController {
      var portfolio = [Portfolio]()
      var vendor_id = ""
      var filter_key = "1"
+    var  tvreloaded:Bool?
     
     //MARK:- Class Variable here -
     let TabCol =  ColumnFlowLayoutwitFixWidth(cellsPerRow: 1, minimumInteritemSpacing: 5, minimumLineSpacing: 5, sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), height: 55, cus_width: 115)
@@ -160,6 +161,7 @@ extension HomeScreenVC{
     func pushToVendorProfile()  {
         let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "VendorProfileVC") as! VendorProfileVC
         vc.vendor_id  = self.vendor_id
+        print("The Vendor ID",vendor_id)
         vc.latitude = self.latitude
         vc.longitude = self.longitude
         vc.address = self.address
@@ -187,9 +189,12 @@ extension HomeScreenVC{
             self.viewGold.layer.cornerRadius = self.viewGold.frame.height/2
             self.lblAvailableCircle.layer.cornerRadius = self.lblAvailableCircle.frame.height/2
             self.lblAvailableCircle.clipsToBounds = true
-            self.viewPortFolio1.addShadow()
-            self.viewPortFolio2.addShadow()
-            self.viewPortfolio3.addShadow()
+//            self.viewPortFolio1.addShadow()
+//            self.viewPortFolio2.addShadow()
+//            self.viewPortfolio3.addShadow()
+            self.imgPortFolio1.addShadow()
+            self.imgPortFolio2.addShadow()
+            self.imgPortFolio3.addShadow()
         }
       
     }
@@ -332,11 +337,15 @@ extension HomeScreenVC:UITableViewDataSource,UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        // self.heightOfTableView.constant = CGFloat(240*self.arrOfVendorList.count)
-        if arrOfVendorList.count == 0 {
-            self.tlvHome.setEmptyMessage("Data not found")
-        } else {
-            self.tlvHome.restore()
+        if   tvreloaded == true  {
+            if arrOfVendorList.count == 0 {
+                self.tlvHome.setEmptyMessage("Data not found")
+            } else {
+                self.tlvHome.restore()
+                
+            }
         }
+      
         return self.arrOfVendorList.count
     }
    
@@ -382,7 +391,7 @@ extension HomeScreenVC:UITableViewDataSource,UITableViewDelegate{
     
     func reset()  {
         imgPortFolio1.sd_setImage(with: URL(string:""), placeholderImage: UIImage(named: "placeholder"))
-        imgPortFlio2.sd_setImage(with: URL(string:""), placeholderImage: UIImage(named: "placeholder"))
+        imgPortFolio2.sd_setImage(with: URL(string:""), placeholderImage: UIImage(named: "placeholder"))
         imgPortFolio3.sd_setImage(with: URL(string:""), placeholderImage: UIImage(named: "placeholder"))
     }
     func poplateImageOnPortFolio(){
@@ -394,19 +403,19 @@ extension HomeScreenVC:UITableViewDataSource,UITableViewDelegate{
                     imgPortFolio1.sd_setImage(with: URL(string: portfolio.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
                 }else if index == 1 {
                     //print(portfolio.image)
-                    imgPortFlio2.sd_setImage(with: URL(string: portfolio.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
+                    imgPortFolio2.sd_setImage(with: URL(string: portfolio.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
                 }else if index == 2 {
                     //print(portfolio.image)
                     imgPortFolio3.sd_setImage(with: URL(string: portfolio.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
                 }
             }
             
-            if self.portfolio.count > 3{
-                  self.btnRemanigImages.isHidden = false
-                self.btnRemanigImages.setTitle("\(self.portfolio.count-3)+", for: .normal)
-            }else{
-                self.btnRemanigImages.isHidden = true
-            }
+//            if self.portfolio.count > 3{
+//                  self.btnRemanigImages.isHidden = false
+//                self.btnRemanigImages.setTitle("\(self.portfolio.count-3)+", for: .normal)
+//            }else{
+//                self.btnRemanigImages.isHidden = true
+//            }
         }
     }
     
@@ -417,7 +426,8 @@ extension HomeScreenVC:UITableViewDataSource,UITableViewDelegate{
 extension HomeScreenVC:DataPass{
     func dataPass(arrOfVendorList: [VendorlistModel]) {
        self.arrOfVendorList = arrOfVendorList
-        self.tlvHome.reloadData()
+       self.tlvHome.reloadData()
+//        tvreloaded = true
     }
 }
 
@@ -426,10 +436,13 @@ extension HomeScreenVC{
     
     func webServicesCallingToGetvendorList(para:[String:Any]){
         print("para is \(para)")
-         UserDataModel.webServicesToGetVendorList(params: para) { (responseModel) in
+         UserDataModel.webServicesToGetVendorList(params: para) { [self] (responseModel) in
             if responseModel != nil{
-                self.arrOfVendorList = responseModel?.VendorlistObject ?? []
-                self.tlvHome.reloadData()
+                arrOfVendorList = responseModel?.VendorlistObject ?? []
+                print("The Vendor List Object",responseModel?.VendorlistObject![1].id)
+                tlvHome.reloadData()
+                tvreloaded = true
+
             }
         }
     }
