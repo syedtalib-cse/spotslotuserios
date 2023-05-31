@@ -9,9 +9,11 @@
 import UIKit
 import  CoreLocation
 import Stripe
-
+import ObjectMapper
+let backendUrl = "https://impetrosys.com/spot_slot_dev/api/customer/Payment/paymentintent"
 class BookingSummaryVC: UIViewController {
-
+    var paymentIntentClientSecret: String?
+    
     @IBOutlet weak var viewBG: UIView!
     
     @IBOutlet weak var imgVendor: UIImageView!
@@ -32,7 +34,10 @@ class BookingSummaryVC: UIViewController {
     var latitude = 0.0
     var longitude = 0.0
     var address = ""
+    var vendorId = ""
+    var numberOfPersonsCount:Double = 0
     var mainAddress: CoverageDetail!
+ 
     var dataDic = [String:Any]()
     private var finalServicePrice: Double = 0
     private var travelFee: Double = 0
@@ -45,36 +50,122 @@ class BookingSummaryVC: UIViewController {
         super.viewDidLoad()
         intialConfig()
         setData()
+        //        getToken()
+        startCheckout()
+        StripeAPI.defaultPublishableKey = "pk_test_51GtUWbLKFvOVKLeMdgLU6LR2YqIh3CknYSltyvxJh8GwPliZVqxqAwgb05NmHcFhvE2A5PsqunfVCKaM6L5vosiz00634dUBUS"
+        
     }
-
+    
     @IBAction func btnBack(_ sender: Any) {
-     self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func btnPushTOChnagePaymenyt(_ sender: Any) {
-    let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "ChangePaymentVC") as! ChangePaymentVC
-    self.navigationController?.pushViewController(vc, animated: true)
+        let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "ChangePaymentVC") as! ChangePaymentVC
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func btnBook(_ sender: Any) {
-        
-        createStripeToken()
+        guard let paymentIntentClientSecret = paymentIntentClientSecret else {
+            return;
+        }
+        // Collect card details
+        let cardParams = STPPaymentMethodCardParams ()
+        cardParams.number = "4242424242424242"
+        cardParams.expMonth = NSNumber(value: UInt("03")!)//"03"
+        cardParams.expYear = NSNumber(value: UInt("2023")!)//"2023"
+        cardParams.cvc = "123"
      
+        let paymentMethodParams = STPPaymentMethodParams(card: cardParams, billingDetails: nil, metadata: nil)
+        let paymentIntentParams = STPPaymentIntentParams(clientSecret: paymentIntentClientSecret)
+        paymentIntentParams.paymentMethodParams = paymentMethodParams
+        
+        // Submit the payment
+        let paymentHandler = STPPaymentHandler.shared()
+        paymentHandler.confirmPayment(withParams: paymentIntentParams, authenticationContext: self) { (status, paymentIntent, error) in
+            switch (status) {
+            case .failed:
+                self.displayAlert(title: "Payment failed", message: error?.localizedDescription ?? "")
+                break
+            case .canceled:
+                self.displayAlert(title: "Payment canceled", message: error?.localizedDescription ?? "")
+                break
+            case .succeeded:
+                self.displayAlert(title: "Payment succeeded", message: paymentIntent?.description ?? "")
+                break
+            @unknown default:
+                fatalError()
+                break
+            }
+        }
+    }
+    //        var para = getAllParameterCustomerPay()
+    //        webServiceToCustomerPay(para:para)
+    //        createStripeToken()
+    //
+    
+    func displayAlert(title: String, message: String, restartDemo: Bool = false) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func startCheckout() {
+        // Create a PaymentIntent as soon as the view loads
+        let url = URL(string: backendUrl)!
+        let json: [String: Any] = [
+            "items": [
+                ["amount": "100"]
+            ]
+        ]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: json)
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] (data, response, error) in
+            guard let response = response as? HTTPURLResponse,
+                  response.statusCode == 200,
+                  let data = data,
+                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                  let clientSecret = json["clientSecret"] as? String else {
+                let message = error?.localizedDescription ?? "Failed to decode response from server."
+                self?.displayAlert(title: "Error loading page", message: message)
+                return
+            }
+            print("Created PaymentIntent")
+            self?.paymentIntentClientSecret = clientSecret
+        })
+        task.resume()
     }
 }
 
+
+extension BookingSummaryVC: STPAuthenticationContext {
+    func authenticationPresentingViewController() -> UIViewController {
+        return self
+    }
+}
+
+
 //MARK:- Custom Function
 extension BookingSummaryVC{
+    
     
     func pushToSuccess()  {
         let vc = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "AppointmentRequestedVC") as! AppointmentRequestedVC
         vc.vendorName = self.lblVendorName.text!
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
+    func pullToSlot(){
+        self.navigationController?.popViewController(animated: true)
+        
+    }
+    
     func intialConfig(){
-       DispatchQueue.main.async {
-          self.viewBG.roundedTop(width: 16, height: 16)
+        DispatchQueue.main.async {
+            self.viewBG.roundedTop(width: 16, height: 16)
         }
     }
     
@@ -94,6 +185,10 @@ extension BookingSummaryVC{
         
         if let numberOfPersons = dataDic[ParametersKey.no_of_person.rawValue] as? String {
             personServiceFeeLabel.text = "Service Fee (\(numberOfPersons) Person)"
+            numberOfPersonsCount = Double(numberOfPersons) ?? 0
+            
+            
+            
         }else {
             personServiceFeeLabel.text = "Service Fee"
         }
@@ -109,7 +204,7 @@ extension BookingSummaryVC{
             if service.price != nil, let price = service.price{
                 finalServicePrice = Double(price) ?? 0
             }
-            lblServiceFee.text = "\(GenralText.currency.rawValue) \(finalServicePrice)"
+            lblServiceFee.text = "\(GenralText.currency.rawValue) \(finalServicePrice*numberOfPersonsCount)"
             
             lblTotal.text = "\(GenralText.currency.rawValue) \(finalServicePrice)"
             if let vendorLatitude = mainAddress.latitude, let vendorLongitude = mainAddress.longitude {
@@ -120,7 +215,9 @@ extension BookingSummaryVC{
                 let vendorMainLocation = CLLocation(latitude: Double(vendorLatitude) ?? 0, longitude: Double(vendorLongitude) ?? 0)
                 travelFee = getTravelFeeByDistance(fromLocation: userLocation, toLocation: vendorMainLocation, With: .miles)
                 lblTravelFee.text = "\(GenralText.currency.rawValue) \(travelFee)"
-                lblTotal.text = "\(GenralText.currency.rawValue) \(finalServicePrice + travelFee)"
+                lblTotal.text = "\(GenralText.currency.rawValue) \(finalServicePrice*numberOfPersonsCount + travelFee)"
+                var amount = finalServicePrice+travelFee
+                print("The Service List is",service.id,finalTotalFee)
             }
         }
         
@@ -161,6 +258,8 @@ extension BookingSummaryVC {
 }
 
 
+
+
 //MARK:- Webservice calling here -
 extension BookingSummaryVC{
     
@@ -176,9 +275,10 @@ extension BookingSummaryVC{
         UserDataModel.webServicesToBookServices(params: para) { (response) in
             if response != nil{
                 if response?.status == 200 {
-                //self.showAnnouncement(withMessage: response?.message ?? "") {
-                self.pushToSuccess()
-                //  }
+                    //self.showAnnouncement(withMessage: response?.message ?? "") {
+                    print("The Book Services Response",response)
+                    self.pushToSuccess()
+                    //  }
                 } else {
                     self.showAnnouncement(withMessage: response?.message ?? "") {
                         
@@ -187,6 +287,7 @@ extension BookingSummaryVC{
             }
         }
     }
+    
     
     
     func webServiceToMakePayment(para:[String:Any])  {
@@ -203,6 +304,46 @@ extension BookingSummaryVC{
             }
         }
     }
+    
+    func webServiceToCustomerPay(para:[String:Any])  {
+        
+        UserDataModel.webserviceToCustomerPay(params: para) {[self] (response) in
+            if response != nil{
+                if response?.status == 200{
+                    //                   getToken()
+                    showAnnouncement(withMessage:response?.message ?? "") { }
+                    
+                    
+                    //do your code here
+                }else {
+                    pullToSlot()
+                }
+            }
+        }
+    }
+    
+    
+    func getAllParameterCustomerPay()->[String:Any]{
+        var para = [String:Any]()
+        
+        if let service = dataDic["service"] as? Service_list{
+            para[ParametersKey.serviceId.rawValue] = service.id ?? ""
+        }
+        if let slotTime = dataDic["primaryslot"] as? String{
+            para[ParametersKey.slotTime.rawValue] = slotTime
+        }
+        para[ParametersKey.vendorId.rawValue] = vendorId
+        if let date = dataDic["appointmentDate"] as? String{
+            para[ParametersKey.bookingDate.rawValue] = date
+        }
+        para[ParametersKey.amount.rawValue] = finalTotalFee
+        para[ParametersKey.orderId.rawValue] = "1234"
+        para[ParametersKey.status.rawValue] = "0"
+        return para
+    }
+    
+    
+    
     
     func getAllParameter(paymentId:String,transaction_id:String,status:String) ->[String:Any] {
         var para = [String:Any]()
@@ -253,10 +394,11 @@ extension BookingSummaryVC{
         cardParams.expYear = UInt("2023")!//"2023"
         cardParams.cvc = "123"
         cardParams.name = "Nicholas Cumberbatch"
-      //  cardParams.address = "Indore"
+        //  cardParams.address = "Indore"
         STPAPIClient.shared.createToken(withCard: cardParams) { (token: STPToken?, error: Error?) in
             guard let token = token, error == nil else {
                 // Present error to user...
+                print("error",error?.localizedDescription)
                 return
             }
             print("token is \(token.tokenId)")
@@ -267,15 +409,24 @@ extension BookingSummaryVC{
             
             if let date = self.dataDic["appointmentDate"] as? String{
                 para[ParametersKey.appointment_date.rawValue] = date
+                
             }
             
             if let service = self.dataDic["service"] as? Service_list{
                 para[ParametersKey.service_id.rawValue] = service.id ?? ""
                 para[ParametersKey.service_type.rawValue] = service.service_type ?? ""
             }
-
+            
             self.webServiceToMakePayment(para: para)
             print(token.tokenId)
         }
+        
     }
+ 
 }
+
+
+
+
+
+

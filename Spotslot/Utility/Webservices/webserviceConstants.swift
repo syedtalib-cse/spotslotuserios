@@ -52,5 +52,5 @@ let pay = "customer/pay"//38
 let favoriteUnfavoriteStyle = "customer/favoriteUnfavoriteStyle"
 let getAllLanguages = "common/getLanguage"
 let addLanguage = "customer/VendorController/addLanguage"
-
+let customerPay = "customer/Payment/customerpay"
 

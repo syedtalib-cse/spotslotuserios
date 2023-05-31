@@ -204,5 +204,13 @@ enum ParametersKey : String {
     case transaction_id
     case payment_status
     case payment_id
-    
+    //CustomerPay
+    case orderId
+    case vendorId
+    case serviceId
+    case slotTime
+    case bookingDate
+  
+   
+
 }

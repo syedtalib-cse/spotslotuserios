@@ -143,6 +143,7 @@ open class WaveTabBarController: UITabBarController, WaveTabBarProtocol {
             tabBar.shadowImage = UIImage()
         }
     }
+
     
     func setupImageView(_ center: Float) {
         let image = viewControllers?[safeSelectedIndex].tabBarItem.selectedImage?.withRenderingMode(.alwaysTemplate)
@@ -216,5 +217,6 @@ open class WaveTabBarController: UITabBarController, WaveTabBarProtocol {
         @unknown default: return Constants.whiteBackgroundColor
         }
     }
+   
     
 }

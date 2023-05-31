@@ -194,6 +194,7 @@
 		E3888D5925E14CC500E18767 /* WaveTabBarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3888D5425E14CC500E18767 /* WaveTabBarPresenter.swift */; };
 		E3888D5A25E14CC500E18767 /* WaveTabBarPresenterBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3888D5525E14CC500E18767 /* WaveTabBarPresenterBase.swift */; };
 		E3888D5B25E14CC500E18767 /* WaveTabBarProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3888D5625E14CC500E18767 /* WaveTabBarProtocol.swift */; };
+		FA3AA4BC26A6A14700C12157 /* ServiceResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AA4BB26A6A14700C12157 /* ServiceResponseModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -396,6 +397,7 @@
 		E3888D5425E14CC500E18767 /* WaveTabBarPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveTabBarPresenter.swift; sourceTree = "<group>"; };
 		E3888D5525E14CC500E18767 /* WaveTabBarPresenterBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveTabBarPresenterBase.swift; sourceTree = "<group>"; };
 		E3888D5625E14CC500E18767 /* WaveTabBarProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveTabBarProtocol.swift; sourceTree = "<group>"; };
+		FA3AA4BB26A6A14700C12157 /* ServiceResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceResponseModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -530,8 +532,8 @@
 				04B3D79824F5230600B5ACCA /* SideMenuViewController.swift */,
 				04B3D7A024F52C7C00B5ACCA /* SearchVC.swift */,
 				04B3D7A224F5493500B5ACCA /* VendorProfileVC.swift */,
-				B70F8A1A24F6DB9B00E3AC61 /* BookingSummaryVC.swift */,
 				B75EA00224F6F22600612C86 /* ChangePaymentVC.swift */,
+				B70F8A1A24F6DB9B00E3AC61 /* BookingSummaryVC.swift */,
 				B76BE6F424F6F83300502D20 /* AppointmentRequestedVC.swift */,
 			);
 			path = Controller;
@@ -836,8 +838,9 @@
 			isa = PBXGroup;
 			children = (
 				04E441562575161A00BE21B4 /* PaymentModel.swift */,
-				0400516925566E560051E54D /* Search */,
+				FA3AA4BB26A6A14700C12157 /* ServiceResponseModel.swift */,
 				042FD114254AC8D90002B201 /* TimeSlotModel.swift */,
+				0400516925566E560051E54D /* Search */,
 				049D6A3B253D603E002FFF39 /* Vendor Profile */,
 				04A3EDA5253AF09E00704627 /* VendorListModel.swift */,
 				04CF469825E911EB009D31F3 /* LikeDislikePortfolioResponse.swift */,
@@ -1245,6 +1248,7 @@
 				0407EBDB24EE5D7300E95818 /* PartnerWithSpotslotVC.swift in Sources */,
 				049061FD254FDF7200526378 /* UIColor.swift in Sources */,
 				04183F6D24EFEE03002162A5 /* BookmarksVC.swift in Sources */,
+				FA3AA4BC26A6A14700C12157 /* ServiceResponseModel.swift in Sources */,
 				0409834725727725006334F0 /* ChatViewController.swift in Sources */,
 				047DEC3F24F3C067004ADFBD /* ChanegPasswordVC.swift in Sources */,
 				048D461224EC0CC700A84442 /* LoginVC.swift in Sources */,

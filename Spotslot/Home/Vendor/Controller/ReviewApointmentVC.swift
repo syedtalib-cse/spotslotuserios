@@ -36,7 +36,7 @@ class ReviewApointmentVC: UIViewController {
     var selecteIndex :Int = -1
     let topColor = #colorLiteral(red: 0.09411764706, green: 0.7254901961, blue: 0.7803921569, alpha: 1)
     let bottomColor = #colorLiteral(red: 0.07843137255, green: 0.5529411765, blue: 0.5725490196, alpha: 1)
-    var arrOfTimeSlot:[TimeUsertime] = []
+    var arrOfTimeSlot:[Vendordefaulttimeslot] = []
     
     var primeSlot = ""
     var SecondarySlot = ""
@@ -49,6 +49,7 @@ class ReviewApointmentVC: UIViewController {
 
     var primarySlotIndex = -1
     var secondarySlotIndex = -1
+    var filterArray:[Vendordefaulttimeslot] = []
     
     var dataDic = [String:Any]()
     var selectedDate: Date?
@@ -56,6 +57,8 @@ class ReviewApointmentVC: UIViewController {
     var latitude:Double = 0.0
     var longitude:Double = 0.0
     var address = ""
+    var currentDate = Date()
+    
     var mainAddress: CoverageDetail!
 
     private var dates = [Date]()
@@ -68,6 +71,10 @@ class ReviewApointmentVC: UIViewController {
         //locationConfigure()
         setPreviousVCAddress()
         getDates()
+//        filterArray = arrOfTimeSlot.filter{}
+        print("The GET date",currentDate)
+//        let calendar = calend
+//        let hour = currentDate(.hour, from: currentDate)
         
     }
     
@@ -105,11 +112,6 @@ class ReviewApointmentVC: UIViewController {
         }
          
         print(dates)
-        var dateFor = Date()
-        let calendarsds = Calendar.current
-        dateFormatter.dateFormat = "EEEE"
-        let dayInWeek = dateFormatter.string(from:date)
-        print("The Day in week",dayInWeek)
         DispatchQueue.main.async {
             self.calanderCollectionView.reloadData()
             if let index =  self.dates.firstIndex(of: self.selectedDate ?? Date()) {
@@ -150,6 +152,7 @@ class ReviewApointmentVC: UIViewController {
             vc.longitude = longitude
             vc.address = addressText
             vc.mainAddress = mainAddress
+            vc.vendorId = vendorId
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             if primeSlot.isEmpty || SecondarySlot.isEmpty {
@@ -159,8 +162,47 @@ class ReviewApointmentVC: UIViewController {
             }
         }
     }
+    func getCurrent(time:String)->Bool{
+        var df = DateFormatter()
+        df.dateFormat = "HH:mm"
+        print("getCurrentTime:111")
+    }
     
 }
+
+
+public boolean getCurrentTime(String time){
+        String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        Log.e(TAG, "getCurrentTime:111 "+currentTime );
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        try {
+            Date EndTime = dateFormat.parse(time)
+;
+            Date CurrentTime = dateFormat.parse(dateFormat.format(new Date()));
+            Log.e(TAG, "getCurrentTime:222 "+time );
+            if (CurrentTime.before(EndTime))
+            {
+                Log.e(TAG, "getCurrentTime: IF" );
+                return true;
+            }else {
+                Log.e(TAG, "getCurrentTime: ELSE" );
+                if (selectedDate.equals(currentDate)){
+                    return false;
+                }
+                else {
+                    return true;
+                }
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+
 
 //MARK:- Custom Function
 extension ReviewApointmentVC{
@@ -206,10 +248,16 @@ extension ReviewApointmentVC:UICollectionViewDelegate,UICollectionViewDataSource
             
             
             let cell = clvSlotlist.dequeueReusableCell(withReuseIdentifier: "slotCell", for: indexPath)  as! slotCell
-            
-            
-          
-            cell.lblTimeOfSlot.text = self.arrOfTimeSlot[indexPath.row].hoursFormat ?? ""
+            currentDate.getStringDate()
+       
+            if(arrOfTimeSlot[indexPath.row].timeslot == currentDate.getStringDate()){
+                cell.lblTimeOfSlot.text = self.arrOfTimeSlot[indexPath.row].timeslot ?? ""
+                cell.lblTimeOfSlot.isUserInteractionEnabled = false
+            }else{
+                cell.lblTimeOfSlot.text = self.arrOfTimeSlot[indexPath.row].timeslot ?? ""
+            }
+           
+           
             DispatchQueue.main.async {
                 if self.primarySlotIndex == indexPath.row{
                     cell.viewBg.backgroundColor = #colorLiteral(red: 0.004608990159, green: 0.7726951241, blue: 0.8249664903, alpha: 1)
@@ -223,22 +271,22 @@ extension ReviewApointmentVC:UICollectionViewDelegate,UICollectionViewDataSource
                     cell.lblTimeOfSlot.textColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 1)
                 }
             }
-            if self.arrOfTimeSlot[indexPath.row].todayStatus! == GenralText.available.rawValue{
-            
-                cell.viewBg.backgroundColor = UIColor.white
-                cell.lblTimeOfSlot.textColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 1)
-                cell.lblRequestedCell.isHidden = true
-              
-               }else if self.arrOfTimeSlot[indexPath.row].todayStatus == GenralText.confirm.rawValue{
-               
-                cell.viewBg.backgroundColor = UIColor.white
-                cell.lblTimeOfSlot.textColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 0.8)
-                cell.lblRequestedCell.isHidden = true
-             } else if self.arrOfTimeSlot[indexPath.row].todayStatus == GenralText.request.rawValue{
-           
-                cell.lblRequestedCell.isHidden = false
-                cell.lblRequestedCell.cornerRadius = cell.lblRequestedCell.frame.height/2
-            }
+//            if self.arrOfTimeSlot[indexPath.row].! == GenralText.available.rawValue{
+//
+//                cell.viewBg.backgroundColor = UIColor.white
+//                cell.lblTimeOfSlot.textColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 1)
+//                cell.lblRequestedCell.isHidden = true
+//
+//               }else if self.arrOfTimeSlot[indexPath.row].todayStatus == GenralText.confirm.rawValue{
+//
+//                cell.viewBg.backgroundColor = UIColor.white
+//                cell.lblTimeOfSlot.textColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 0.8)
+//                cell.lblRequestedCell.isHidden = true
+//             } else if self.arrOfTimeSlot[indexPath.row].todayStatus == GenralText.request.rawValue{
+//
+//                cell.lblRequestedCell.isHidden = false
+//                cell.lblRequestedCell.cornerRadius = cell.lblRequestedCell.frame.height/2
+//            }
             return cell
         }
     }
@@ -253,16 +301,16 @@ extension ReviewApointmentVC:UICollectionViewDelegate,UICollectionViewDataSource
                 selectedDate = dates[indexPath.item]
                 self.calanderCollectionView.reloadItems(at: [oldIndexPath, indexPath])
                 dataDic["appointmentDate"] = (selectedDate ?? Date()).getStringDate()
+             
             }
         }else {
             if !isSelectedPrimary{
-                self.primeSlot = self.arrOfTimeSlot[indexPath.row].hoursFormat ?? ""
-                self.primarySlotId = self.arrOfTimeSlot[indexPath.row].id ?? ""
-                self.primarySlotIndex = indexPath.row
+                self.primeSlot = self.arrOfTimeSlot[indexPath.row].timeslot ?? ""
+//                self.primarySlotId = self.arrOfTimeSlot[indexPath.row].id                 self.primarySlotIndex = indexPath.row
                 isSelectedPrimary = true
             }else{
                 
-                let secondarySlot = GlobalObj.strToDate(strDate: self.arrOfTimeSlot[indexPath.row].hoursFormat ?? "")
+                let secondarySlot = GlobalObj.strToDate(strDate: self.arrOfTimeSlot[indexPath.row].timeslot ?? "")
                 let primarySlot = GlobalObj.strToDate(strDate:self.primeSlot)
                 if primarySlot > secondarySlot{
 
@@ -273,17 +321,17 @@ extension ReviewApointmentVC:UICollectionViewDelegate,UICollectionViewDataSource
 
                     //for ids
                     let temPrimaryId = self.primarySlotId
-                    self.primarySlotId = self.arrOfTimeSlot[indexPath.row].id ?? ""
+//                    self.primarySlotId = self.arrOfTimeSlot[indexPath.row].id ?? ""
                     self.secondarySlotId = temPrimaryId
-
+                
                     //for time
                     let tempPrimarySlot = self.primeSlot
-                    self.primeSlot = self.arrOfTimeSlot[indexPath.row].hoursFormat ?? ""
+                    self.primeSlot = self.arrOfTimeSlot[indexPath.row].timeslot ?? ""
                     self.SecondarySlot = tempPrimarySlot
 
                 }else{
-                    self.secondarySlotId = self.arrOfTimeSlot[indexPath.row].id ?? ""
-                    self.SecondarySlot = self.arrOfTimeSlot[indexPath.row].hoursFormat ?? ""
+//                    self.secondarySlotId = self.arrOfTimeSlot[indexPath.row].id ?? ""
+                    self.SecondarySlot = self.arrOfTimeSlot[indexPath.row].timeslot ?? ""
                     self.secondarySlotIndex = indexPath.row
                 }
             }
@@ -302,6 +350,7 @@ extension ReviewApointmentVC:UICollectionViewDelegate,UICollectionViewDataSource
             dataDic["primaryslotTime"] = self.primeSlot
             dataDic["secondarySlotTime"] = self.SecondarySlot
             self.selecteIndex = indexPath.row
+            print()
             self.clvSlotlist.reloadData()
         }
     }
@@ -382,103 +431,30 @@ extension ReviewApointmentVC{
 //            }
 //        }
 //    }
+    
     func webServicesToGetTimeSlot(){
-        UserDataModel.webServicesTogetTimeSlotData(params: [ParametersKey.vendor_id.rawValue:self.vendorId]) { [self] (response) in
+        let para = getAllParameterTimeSlot()
+        print("The af",para)
+        UserDataModel.webServicesTogetTimeSlotData(params:para) { [self] (response) in
             print("The Respose",response)
             if response != nil{
-                arrOfTimeSlot = response?.object?.usertime ?? []
+                arrOfTimeSlot = response?.object?.vendordefaulttimeslot ?? []
                 print("The arrOfTimeSlot",response)
                 clvSlotlist.reloadData()
             }
         }
     }
+    
+    func getAllParameterTimeSlot()->[String:Any]{
+        var para = [String:Any]()
+        para[ParametersKey.vendor_id.rawValue] = vendorId
+        if let date = dataDic["appointmentDate"] as? String{
+            para[ParametersKey.appointment_date.rawValue] = date
+        }
+
+        return para
+    }
 }
         
-import ObjectMapper
 
-struct TimeSlot: Mappable {
-    
-    var message: String?
-    var object: TimeObject?
-    var status: Int?
-    
-    init?(map: Map) { }
 
-    mutating func mapping(map: Map) {
-    message <- map["message"]
-    object <- map["object"]
-    status <- map["status"]
-    }
-    
-}
-
-struct TimeObject: Mappable {
-    
-    var customerdefaulttimeslot: [AnyObject]?
-    var usertime: [TimeUsertime]?
-    var vendordefaulttimeslot: [TimeVendordefaulttimeslot]?
-    
-    init?(map: Map) { }
-
-    mutating func mapping(map: Map) {
-    customerdefaulttimeslot <- map["customerdefaulttimeslot"]
-    usertime <- map["usertime"]
-    vendordefaulttimeslot <- map["vendordefaulttimeslot"]
-    }
-    
-}
-struct TimeVendordefaulttimeslot: Mappable {
-    
-    var createdAt: String?
-    var dailyEndTime: String?
-    var dailyStartTime: String?
-    var deletedAt: AnyObject?
-    var id: String?
-    var satEndTime: String?
-    var satStartTime: String?
-    var sunEndTime: String?
-    var sunStartTime: String?
-    var updatedAt: AnyObject?
-    var vendorId: String?
-    
-    init?(map: Map) { }
-
-    mutating func mapping(map: Map) {
-    createdAt <- map["created_at"]
-    dailyEndTime <- map["daily_end_time"]
-    dailyStartTime <- map["daily_start_time"]
-    deletedAt <- map["deleted_at"]
-    id <- map["id"]
-    satEndTime <- map["sat_end_time"]
-    satStartTime <- map["sat_start_time"]
-    sunEndTime <- map["sun_end_time"]
-    sunStartTime <- map["sun_start_time"]
-    updatedAt <- map["updated_at"]
-    vendorId <- map["vendor_id"]
-    }
-    
-}
-
-struct TimeUsertime: Mappable {
-    
-    var createdAt: String?
-    var deletedAt: AnyObject?
-    var hoursFormat: String?
-    var id: String?
-    var slot: String?
-    var todayStatus: String?
-    var updatedAt: AnyObject?
-    
-    init?(map: Map) { }
-
-    mutating func mapping(map: Map) {
-    createdAt <- map["created_at"]
-    deletedAt <- map["deleted_at"]
-    hoursFormat <- map["hours_format"]
-    id <- map["id"]
-    slot <- map["slot"]
-    todayStatus <- map["today_status"]
-    updatedAt <- map["updated_at"]
-    }
-    
-}

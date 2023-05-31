@@ -10,8 +10,8 @@ import UIKit
 import SDWebImage
 import CoreLocation
 
-class VendorProfileVC: UIViewController {
 
+class VendorProfileVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var viewBG: UIView!
     @IBOutlet weak var clvReview: UICollectionView!
     @IBOutlet weak var viewService: UIView!
@@ -59,6 +59,7 @@ class VendorProfileVC: UIViewController {
     @IBOutlet weak var btnBookVendor: UIButton!
     @IBOutlet weak var viewSelectSlot: UIView!
     
+    @IBOutlet weak var leftArrow: UIImageView!
     //For slider stif here
     var numberOfPeople = 1
     var rating_list : [Rating_list] = []
@@ -68,6 +69,7 @@ class VendorProfileVC: UIViewController {
     var selectedServices:Service_list?
     var dataDic = [String:Any]()
     var isSelectedService = false
+    var arrBussinessHours:[String] = []
     
     //For the slider
     let portFolio = ColumnFlowLayout(cellsPerRow: 3, minimumInteritemSpacing: 5, minimumLineSpacing: 5, sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), height: 100)
@@ -88,7 +90,6 @@ class VendorProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         intialConfig()
-        
 //        vendor_id = UserDefaults.standard.value(forKey: "vendor_id") as! String
     }
     
@@ -104,7 +105,6 @@ class VendorProfileVC: UIViewController {
     @IBAction func btnBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
-
     @IBAction func btnPortFolio(_ sender: Any) {
         self.isHiden(about: true, service: true, portfolio: false)
         setBackColorTobtn(about: true, service: true, portfolio: false)
@@ -348,9 +348,16 @@ extension VendorProfileVC{
     }
     
     private func setBusinessHoursDetails(_ model: BuisnessHourDetail?) {
+        
         lblMondayToFriday.text = model?.monFri ?? ""
         lblSaturday.text = model?.sat ?? ""
         lblSunday.text = model?.sun ?? ""
+        if model != nil {
+            arrBussinessHours.append(contentsOf: [model?.monFri ?? "",model?.sat ?? "",model?.sun ?? ""])
+            
+        }
+     
+        
     }
     
     private func setLanguages(_ languages: [LanguageModel]? ) {

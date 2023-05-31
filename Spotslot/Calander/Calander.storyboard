@@ -1325,7 +1325,7 @@
         <scene sceneID="92u-P1-rZn">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="a2N-yB-3CH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="calendar_tabbar" id="9cr-sg-ybS"/>
+                    <tabBarItem key="tabBarItem" title="" image="Calendar_nav" id="9cr-sg-ybS"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oQK-aQ-0cL">
@@ -2148,12 +2148,12 @@ experience?</string>
         </designable>
     </designables>
     <resources>
+        <image name="Calendar_nav" width="24" height="24"/>
         <image name="Visa" width="192" height="96"/>
         <image name="arrow-right" width="24" height="24"/>
         <image name="bg_screen" width="1125" height="2436"/>
         <image name="btn_bg" width="343" height="52"/>
         <image name="calendar_green" width="16" height="16"/>
-        <image name="calendar_tabbar" width="24" height="24"/>
         <image name="call" width="113" height="113"/>
         <image name="chat_bg" width="1095" height="3045"/>
         <image name="checkIcons" width="12" height="12"/>

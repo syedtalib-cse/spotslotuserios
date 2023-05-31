@@ -22,7 +22,7 @@ struct UserDataModel : Mappable {
     var VendorlistObject : [VendorlistModel]?
     var VendorProfile:ProfileData?
     var arrofSpecilization:[SpecializationModel]?
-    var arrOfTimeSlot:[TimeSlotModel]?
+    var arrOfTimeSlot:[TimeUsertime]?
     var arrOfAddressObj:[AddressListModel]?
     var objCustomerData:CustomerDataModel?
     var objPaymentMethodList:[PaymentMethodList]?
@@ -196,11 +196,11 @@ struct UserDataModel : Mappable {
       }
     
     //To get timeSlot data vendorId
-    static func webServicesTogetTimeSlotData(params:[String:Any],completion:@escaping(TimeSlot?) -> Void){
+    static func webServicesTogetTimeSlotData(params:[String:Any],completion:@escaping(TimeSlotModel?) -> Void){
        // SVProgressHUD.show()
         print(params)
         objWebServiceManager.requestPost(strURL:defualtTimeSlot, params:params, showIndicator: true, success: { (response) in
-            let responseModel = Mapper<TimeSlot>().map(JSONString: response)
+            let responseModel = Mapper<TimeSlotModel>().map(JSONString: response)
             completion(responseModel)
         }) { (error) in
           //  SVProgressHUD.dismiss()
@@ -581,9 +581,15 @@ struct UserDataModel : Mappable {
                print(error)
            }
        }
-      
-    
-    
-    
+    //MARK:To Check Slot is Booked
+    static func webserviceToCustomerPay(params:[String:Any],completion:@escaping(ServiceBookResponseModel?) -> Void){
+        print(params)
+        objWebServiceManager.requestPost(strURL:customerPay, params:params,showIndicator: true, success: { (response) in
+            let responseModel = Mapper<ServiceBookResponseModel>().map(JSONString: response)
+            completion(responseModel)
+        }) { (error) in
+            print(error)
+        }
+    }
 }
 

@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     let googleApiKey = "AIzaSyAEAARDc1sUyiAJ8C8ti8Wa--_Yr6scZw8"//"AIzaSyBrFFL9c6R-OEXf0IU4WG59GfrCwLxlY1E"
-    let stripeApiKey = "pk_test_JyEYiyZ8htIt2bqOn2KB5mOm00hiD1tOhh"
+    let stripeApiKey = "pk_test_51GtUWbLKFvOVKLeMdgLU6LR2YqIh3CknYSltyvxJh8GwPliZVqxqAwgb05NmHcFhvE2A5PsqunfVCKaM6L5vosiz00634dUBUS"
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
        
         IQKeyboardManager.shared.enable = true
